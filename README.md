@@ -41,7 +41,7 @@ Version your network configuration with notes, diff before/after, and restore in
 Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/netcheck_0.0.1_beta/netcheck_1.2.51_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.51/netcheck_1.2.51_x86_64.deb
 shasum -a 256 -c netcheck_1.2.51_x86_64.deb.sha256   # optional integrity check
 sudo dpkg -i netcheck_1.2.51_x86_64.deb
 ```
