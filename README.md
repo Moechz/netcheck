@@ -1,6 +1,6 @@
 # NetCheck — Network Diagnostics & Repair for TOS 7
 
-![Release](https://img.shields.io/badge/release-0.0.1%20beta-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
+![Release](https://img.shields.io/badge/release-1.2.53-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
 
 **NetCheck** is a network health application for TerraMaster NAS running **TOS 7**. It diagnoses connectivity problems from the TOS web UI, explains what broke and where, and walks you through safe repairs — no SSH required.
 
@@ -41,32 +41,33 @@ Version your network configuration with notes, diff before/after, and restore in
 Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.51/netcheck_1.2.51_x86_64.deb
-shasum -a 256 -c netcheck_1.2.51_x86_64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.51_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb.sha256
+shasum -a 256 -c netcheck_1.2.53_x86_64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.53_x86_64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.51
+## Current release: 1.2.53
 
 | Architecture | Package | SHA-256 |
 |---|---|---|
-| x86_64 | [netcheck_1.2.51_x86_64.deb](raw/main/netcheck_1.2.51_x86_64.deb) | `1107603e570f2e45995e95cc975be1e787c12e44e0054ebd69aeebd8da75d616` |
-| aarch64 | [netcheck_1.2.51_aarch64.deb](raw/main/netcheck_1.2.51_aarch64.deb) | `afa9038ed07bb55b61a558bcad2fc13b98b2534411f61c387537b99bfb74d407` |
+| x86_64 | [netcheck_1.2.53_x86_64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb) | `87a9498c3aeff36e4fcfa13ca12bf00f681b8e9d2768b4b05d62663b7b097598` |
+| aarch64 | [netcheck_1.2.53_aarch64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_aarch64.deb) | `044f548ad997f54a542087e9e61eebb4dc8908f664c8b47d8003550d8c11b3e6` |
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.51_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.51_aarch64.deb.sha256
+shasum -a 256 -c netcheck_1.2.53_x86_64.deb.sha256
+shasum -a 256 -c netcheck_1.2.53_aarch64.deb.sha256
 ```
 
 ## Highlights
 
-- L2 source protection: obfuscated frontend (control-flow flattening and string encryption) and bytecode-only backend
-- Arabic and Hebrew language packs with full right-to-left layout
-- RTL topbar brand pinned left away from TOS window controls
+- Go/eBPF realtime traffic collector with per-interface RX/TX rates
+- TerraMaster-compliant 512×512 transparent SVG application icon
+- L2 source protection: obfuscated frontend and bytecode-only backend
 
 ---
 
