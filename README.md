@@ -41,30 +41,30 @@ Version your network configuration with notes, diff before/after, and restore in
 Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/netcheck_0.0.1_beta/netcheck_1.2.50_x86_64.deb
-shasum -a 256 -c netcheck_1.2.50_x86_64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.50_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/netcheck_0.0.1_beta/netcheck_1.2.51_x86_64.deb
+shasum -a 256 -c netcheck_1.2.51_x86_64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.51_x86_64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.50
+## Current release: 1.2.51
 
 | Architecture | Package | SHA-256 |
 |---|---|---|
-| x86_64 | [netcheck_1.2.50_x86_64.deb](raw/main/netcheck_1.2.50_x86_64.deb) | `131c8d4d0b509d93dcce1391748d7a78afb5fd93e96cd907b725577c67623991` |
-| aarch64 | [netcheck_1.2.50_aarch64.deb](raw/main/netcheck_1.2.50_aarch64.deb) | `c01a7ee36a26c3fb1aae12801657aa46b00c127e3e159bf848828f1c7ce0c5da` |
+| x86_64 | [netcheck_1.2.51_x86_64.deb](raw/main/netcheck_1.2.51_x86_64.deb) | `1107603e570f2e45995e95cc975be1e787c12e44e0054ebd69aeebd8da75d616` |
+| aarch64 | [netcheck_1.2.51_aarch64.deb](raw/main/netcheck_1.2.51_aarch64.deb) | `afa9038ed07bb55b61a558bcad2fc13b98b2534411f61c387537b99bfb74d407` |
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.50_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.50_aarch64.deb.sha256
+shasum -a 256 -c netcheck_1.2.51_x86_64.deb.sha256
+shasum -a 256 -c netcheck_1.2.51_aarch64.deb.sha256
 ```
 
 ## Highlights
 
-- L1 source protection: minified frontend and bytecode-only backend in packages
+- L2 source protection: obfuscated frontend (control-flow flattening and string encryption) and bytecode-only backend
 - Arabic and Hebrew language packs with full right-to-left layout
 - RTL topbar brand pinned left away from TOS window controls
 
