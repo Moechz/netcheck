@@ -1,0 +1,63 @@
+#!/bin/bash
+set -e
+
+APPID="netcheck"
+APP_DIR="/usr/local/${APPID}"
+
+# TOS 7 requires applications to use their own non-root account.
+if ! getent group "${APPID}" >/dev/null 2>&1; then
+    groupadd --system "${APPID}" 2>/dev/null || true
+fi
+if ! id -u "${APPID}" >/dev/null 2>&1; then
+    useradd --system --gid "${APPID}" --no-create-home --shell /usr/sbin/nologin "${APPID}" 2>/dev/null || true
+fi
+
+mkdir -p "${APP_DIR}/data/auth" "${APP_DIR}/data/backups" \
+         "${APP_DIR}/data/snapshots" "${APP_DIR}/data/tmp" \
+         "${APP_DIR}/logs"
+# TOS may expose /var/api as a symlink to /tmp/api. GNU mkdir -p returns
+# "File exists" when that symlink is dangling, so create its target first.
+if [ -L /var/api ] && [ ! -d /var/api ]; then
+    mkdir -p "$(readlink /var/api)"
+fi
+if [ ! -d /var/api ]; then
+    mkdir -p /var/api
+fi
+chown -R "${APPID}:${APPID}" "${APP_DIR}/data" "${APP_DIR}/logs"
+chmod 700 "${APP_DIR}/data/auth"
+
+# TOS creates /var/api as an admin-owned 0755 directory on some installations.
+# NetCheck must not run as root, so grant only this app user permission to
+# create its platform-proxy socket. Do not change the directory owner/mode.
+# /tmp or tmpfs targets may not support POSIX ACLs; treat any setfacl
+# failure as "unavailable" and apply the traditional group fallback.
+if command -v setfacl >/dev/null 2>&1 \
+   && setfacl -m "u:${APPID}:rwx" /var/api 2>/dev/null; then
+    :
+else
+    chgrp "${APPID}" /var/api
+    chmod u+rwx,g+rwx,o+rX /var/api
+fi
+
+# webui.bz2 is the fixed frontend archive filename required by TOS 7.
+if [ -f "$APP_DIR/webui.bz2" ]; then
+    rm -rf "$APP_DIR/webui" && mkdir -p "$APP_DIR/webui"
+    tar -xjf "$APP_DIR/webui.bz2" -C "$APP_DIR/webui" || true
+fi
+
+# TOS serves installed WebUIs from /usr/www/<appid>. Register the link here so
+# direct dpkg installation behaves like App Center deployment.
+if [ -d /usr/www ]; then
+    ln -sfn "$APP_DIR/webui" "/usr/www/${APPID}"
+fi
+
+# Register units explicitly so direct dpkg installation and App Center both work.
+install -m 0644 "$APP_DIR/init.d/netcheck.service" /etc/systemd/system/netcheck.service
+install -m 0644 "$APP_DIR/init.d/netcheck-helper.service" /etc/systemd/system/netcheck-helper.service
+install -m 0644 "$APP_DIR/init.d/netcheck-bpf.service" /etc/systemd/system/netcheck-bpf.service
+systemctl daemon-reload
+systemctl enable netcheck.service netcheck-helper.service netcheck-bpf.service >/dev/null 2>&1 || true
+systemctl restart netcheck-helper.service netcheck-bpf.service netcheck.service || true
+
+echo "${APPID} installed successfully."
+exit 0

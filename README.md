@@ -1,6 +1,6 @@
 # NetCheck — Network Diagnostics & Repair for TOS 7
 
-![Release](https://img.shields.io/badge/release-1.2.53-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
+![Release](https://img.shields.io/badge/release-1.2.54-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
 
 **NetCheck** is a network health application for TerraMaster NAS running **TOS 7**. It diagnoses connectivity problems from the TOS web UI, explains what broke and where, and walks you through safe repairs — no SSH required.
 
@@ -36,31 +36,31 @@ Version your network configuration with notes, diff before/after, and restore in
 
 ## 📦 Install
 
-**Requirements**: TerraMaster NAS with TOS 7 · x86_64 or aarch64
+**Requirements**: TerraMaster NAS with TOS 7 · bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10 or 555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf
 
 Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.53_x86_64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.53_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb.sha256
+shasum -a 256 -c netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.53
+## Current release: 1.2.54
 
 | Architecture | Package | SHA-256 |
 |---|---|---|
-| x86_64 | [netcheck_1.2.53_x86_64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_x86_64.deb) | `87a9498c3aeff36e4fcfa13ca12bf00f681b8e9d2768b4b05d62663b7b097598` |
-| aarch64 | [netcheck_1.2.53_aarch64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.53/netcheck_1.2.53_aarch64.deb) | `044f548ad997f54a542087e9e61eebb4dc8908f664c8b47d8003550d8c11b3e6` |
+| bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10 | [netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb) | `87a9498c3aeff36e4fcfa13ca12bf00f681b8e9d2768b4b05d62663b7b097598` |
+| 555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf | [netcheck_1.2.54_555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf.deb) | `044f548ad997f54a542087e9e61eebb4dc8908f664c8b47d8003550d8c11b3e6` |
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.53_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.53_aarch64.deb.sha256
+shasum -a 256 -c netcheck_1.2.54_bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10.deb.sha256
+shasum -a 256 -c netcheck_1.2.54_555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf.deb.sha256
 ```
 
 ## Highlights
@@ -72,3 +72,20 @@ shasum -a 256 -c netcheck_1.2.53_aarch64.deb.sha256
 ---
 
 Source code is maintained in [Moechz/TOS-netcheck](https://github.com/Moechz/TOS-netcheck).
+
+---
+
+## 🔐 Compliance & policies
+
+Privacy policy, third-party service and data-flow disclosure, open-source
+licence notices, user data access/correction/deletion paths, the privileged
+channel (R1) authorisation dossier and the software bill of materials ship with
+every package under `/usr/local/netcheck/compliance/`, and are published here:
+
+- [Privacy policy](compliance/privacy-policy.md)
+- [Third-party services & data flows](compliance/third-party-services.md)
+- [Data access, correction and deletion](compliance/data-rights.md)
+- [Licences & dependencies](compliance/licenses.md)
+- [Privileged channel (root helper) authorisation & least privilege](compliance/privileged-channel.md)
+- [Supply chain & build provenance](compliance/supply-chain.md)
+- [Software bill of materials](compliance/SBOM.json)

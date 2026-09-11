@@ -1,0 +1,35 @@
+NetCheck — TOS 7 Network Diagnosis & Repair
+Copyright 2026 Moechz <zhoucaven@163.com>
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product bundles the following third-party components in the binary
+`bin/netcheck-bpf` (Go, statically linked, modules vendored under
+`bpfcollector/vendor/`):
+
+  - github.com/cilium/ebpf v0.15.0        MIT License
+      Copyright (c) 2017 Nathan Sweet
+      Copyright (c) 2018, 2019 Cloudflare
+      Copyright (c) 2019 Authors of Cilium
+  - golang.org/x/sys (indirect)           BSD 3-Clause License
+      Copyright (c) 2009 The Go Authors
+  - golang.org/x/exp (indirect)           BSD 3-Clause License
+      Copyright (c) 2009 The Go Authors
+
+The eBPF program source `bpfcollector/_bpf/traffic.bpf.c` is built on the
+header set under `bpfcollector/_headers/` which originates from the
+cilium/ebpf examples and is covered by the BSD 2-Clause License.
+
+Full license texts are shipped in `compliance/licenses/` inside the installed
+application directory (`/usr/local/netcheck/compliance/licenses/`).
+
+No third-party Python package is bundled or redistributed: the backend uses
+only the Python 3.10 standard library (PSF License). The optional `requests`
+module is never shipped; if an operator places one under
+`<app_root>/depends/` it is used from the local filesystem only.
+
+Build-time-only tools (not redistributed in the package):
+javascript-obfuscator (BSD-2-Clause), terser (BSD-2-Clause), Node.js,
+the Go toolchain (BSD-3-Clause) and clang (Apache-2.0 with LLVM exception,
+used to compile the eBPF object on Linux).
+

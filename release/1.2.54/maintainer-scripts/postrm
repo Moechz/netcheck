@@ -1,0 +1,25 @@
+#!/bin/bash
+# `remove` deliberately keeps application data so reinstall is lossless.
+# `purge` deletes all application data, logs and runtime state so that the
+# "delete all configuration" uninstall option leaves nothing behind
+# (documented in compliance/data-rights.md, review item C5).
+set -e
+APP_DIR="/usr/local/netcheck"
+
+case "$1" in
+    remove|purge)
+        rm -f /usr/www/netcheck
+        rm -f /run/netcheck/token /run/netcheck/helper.sock /run/netcheck/bpf-traffic.sock
+        rmdir /run/netcheck 2>/dev/null || rm -rf /run/netcheck
+        ;;
+esac
+
+if [ "$1" = "purge" ]; then
+    rm -rf "${APP_DIR}/data"
+    rm -rf "${APP_DIR}/logs"
+    rm -f /etc/systemd/system/netcheck.service
+    rm -f /etc/systemd/system/netcheck-helper.service
+    rm -f /etc/systemd/system/netcheck-bpf.service
+fi
+systemctl daemon-reload || true
+exit 0

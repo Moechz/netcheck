@@ -1,0 +1,13 @@
+{
+  "version": "1.2.54",
+  "review_items": {
+    "V1/S1": "compliance/privileged-channel.md",
+    "C2": "compliance/privacy-policy.md",
+    "C3": "compliance/licenses.md + LICENSE + NOTICE + compliance/licenses/",
+    "C4": "compliance/third-party-services.md",
+    "C5": "compliance/data-rights.md",
+    "S8/S9": "compliance/supply-chain.md + maintainer_scripts"
+  },
+  "notes": "Hashes are computed after bytecode compilation, before tar creation; verify with sha256sum against the installed files. The package-level SHA-256 is published in the release bundle and in the .deb.sha256 file.",
+  "contact": "zhoucaven@163.com"
+}

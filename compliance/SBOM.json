@@ -1,0 +1,219 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-11T16:00:00+08:00",
+    "component": {
+      "type": "application",
+      "bom-ref": "netcheck@1.2.54",
+      "name": "NetCheck",
+      "version": "1.2.54",
+      "author": "Moechz",
+      "supplier": {
+        "name": "Moechz",
+        "contact": [
+          {
+            "email": "zhoucaven@163.com"
+          }
+        ]
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "platform",
+          "value": "x86_64"
+        },
+        {
+          "name": "package",
+          "value": "deb"
+        },
+        {
+          "name": "tos.minimum",
+          "value": "TOS 7.0"
+        }
+      ]
+    },
+    "tools": [
+      {
+        "vendor": "OpenJS",
+        "name": "javascript-obfuscator",
+        "version": "5.6.0"
+      },
+      {
+        "vendor": "OpenJS",
+        "name": "terser",
+        "version": "5.51.2"
+      },
+      {
+        "vendor": "Python",
+        "name": "CPython",
+        "version": "3.10"
+      },
+      {
+        "vendor": "Google",
+        "name": "Go",
+        "version": "1.23"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/github.com/cilium/ebpf@v0.15.0",
+      "name": "github.com/cilium/ebpf",
+      "version": "v0.15.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "true"
+        },
+        {
+          "name": "bundled-in",
+          "value": "usr/local/netcheck/bin/netcheck-bpf"
+        },
+        {
+          "name": "vendor-path",
+          "value": "bpfcollector/vendor/github.com/cilium/ebpf"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/sys@v0.15.0",
+      "name": "golang.org/x/sys",
+      "version": "v0.15.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "true"
+        },
+        {
+          "name": "bundled-in",
+          "value": "usr/local/netcheck/bin/netcheck-bpf"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:golang/golang.org/x/exp@20230224",
+      "name": "golang.org/x/exp",
+      "version": "v0.0.0-20230224173230-c95f2b4c22f2",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "true"
+        },
+        {
+          "name": "bundled-in",
+          "value": "usr/local/netcheck/bin/netcheck-bpf"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "netcheck-ebpf-header-set",
+      "name": "cilium/ebpf example headers",
+      "version": "v0.15.0",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-2-Clause"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "true"
+        },
+        {
+          "name": "path",
+          "value": "bpfcollector/_headers"
+        },
+        {
+          "name": "note",
+          "value": "compiled into the eBPF object inside bin/netcheck-bpf"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "python-runtime",
+      "name": "CPython standard library",
+      "version": "3.10",
+      "scope": "required",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "false"
+        },
+        {
+          "name": "note",
+          "value": "provided by TOS; no third-party Python package is shipped"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "sivel-speedtest-cli",
+      "name": "sivel/speedtest-cli",
+      "scope": "optional",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "properties": [
+        {
+          "name": "bundled",
+          "value": "false"
+        },
+        {
+          "name": "note",
+          "value": "conceptual reference for the bandwidth flow; NetCheck ships its own implementation"
+        }
+      ]
+    }
+  ]
+}
