@@ -90,14 +90,14 @@ UMask=0077
 
 ```ini
 User=0
-Group=996
+Group=netcheck
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_BPF CAP_PERFMON
 NoNewPrivileges=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_PACKET
 LimitMEMLOCK=infinity
 ```
 
-> `Group=996`（数字 gid = netcheck 组）：收集器创建的 `bpf-traffic.sock` 继承该组并以 0660 模式供主服务连接（不能用目录 setgid 位，原因同上）。
+> `User=0`（数字 uid）：TOS 会把用户名 `root` 重映射到无能力的诱饵 uid 9999，按名字解析会使能力失效，故用户部分用数字。`Group=netcheck`（名字）：TOS 不重映射组名，且系统给 netcheck 组分配的 gid 因机器而异（实测 996 与 999 两种），硬编码 gid 会在部分机器上 status=216/GROUP 启动失败（1.2.57 真机修复）；收集器创建的 `bpf-traffic.sock` 继承该组并以 0660 模式供主服务连接（不能用目录 setgid 位，原因同上）。
 
 | 保留的能力 | 用途 |
 |---|---|

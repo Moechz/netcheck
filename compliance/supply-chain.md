@@ -33,8 +33,8 @@
 #       dpkg-deb（Linux 可选；无 dpkg-deb 时使用内置 GNU deb 写入器）
 
 cd netcheck
-./build.sh x86_64      # 产出 netcheck_1.2.54_x86_64.deb + .sha256
-./build.sh aarch64     # 产出 netcheck_1.2.54_aarch64.deb + .sha256
+./build.sh amd64       # 产出 netcheck_1.2.54_amd64.deb + .sha256
+./build.sh arm64       # 产出 netcheck_1.2.54_arm64.deb + .sha256
 ```
 
 `build.sh` 的 8 个强制步骤：
@@ -62,7 +62,7 @@ cd netcheck
 四个脚本位于包的 control 成员中，可直接抽取核验：
 
 ```bash
-dpkg-deb -e netcheck_1.2.54_x86_64.deb /tmp/netcheck-control
+dpkg-deb -e netcheck_1.2.54_amd64.deb /tmp/netcheck-control
 ls -l /tmp/netcheck-control      # control md5sums preinst postinst prerm postrm
 sha256sum /tmp/netcheck-control/postinst /tmp/netcheck-control/prerm \
           /tmp/netcheck-control/postrm /tmp/netcheck-control/preinst
@@ -103,10 +103,10 @@ netcheck_1.2.54_<arch>.deb
 ### 5. 独立复核命令
 
 ```bash
-sha256sum -c netcheck_1.2.54_x86_64.deb.sha256
-dpkg-deb -I netcheck_1.2.54_x86_64.deb          # control 字段与版本
-dpkg-deb -c netcheck_1.2.54_x86_64.deb | head   # 文件清单与权限
-dpkg-deb -e netcheck_1.2.54_x86_64.deb /tmp/nc  # 维护脚本
+sha256sum -c netcheck_1.2.54_amd64.deb.sha256
+dpkg-deb -I netcheck_1.2.54_amd64.deb          # control 字段与版本
+dpkg-deb -c netcheck_1.2.54_amd64.deb | head   # 文件清单与权限
+dpkg-deb -e netcheck_1.2.54_amd64.deb /tmp/nc  # 维护脚本
 python3 - <<'PY'                                # 契约哈希比对（安装后）
 import json,hashlib,pathlib
 c=json.load(open('/usr/local/netcheck/contract/expected.json'))
@@ -138,7 +138,7 @@ party: `bin/netcheck`/`bin/netcheck-helper` are the Python entry points,
 `webui.bz2` is packaged from `webui/`. Plaintext source (`.py`, unobfuscated
 `.js`, `.bpf.c`) is available on request for platform-side static review.
 
-Build: `./build.sh x86_64` and `./build.sh aarch64`, with the eight mandatory
+Build: `./build.sh amd64` and `./build.sh arm64`, with the eight mandatory
 stages listed above (compile checks, WebUI/i18n checks, Go build, CRLF check,
 TOS metadata validation, non-root service check, contract/webui/compliance/SBOM
 generation, packaging validation). Staging is deterministic (`mtime=0`,
