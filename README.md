@@ -36,31 +36,35 @@ Version your network configuration with notes, diff before/after, and restore in
 
 ## 📦 Install
 
-**Requirements**: TerraMaster NAS with TOS 7 · x86_64 or aarch64
+**Requirements**: TerraMaster NAS with TOS 7 · Intel/AMD (amd64) or ARM (arm64)
 
-Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
+Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools.
+
+**Which package do I need?** Run `dpkg --print-architecture` over SSH — its output (`amd64` or `arm64`) is exactly the file suffix you need. Alternatively, check the CPU in TOS Control Panel: Intel/AMD processors → `amd64`, ARM processors → `arm64`. The suffix always matches the package's internal Debian architecture, so `dpkg -i` will also refuse a mismatched one.
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.56_x86_64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.56_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_amd64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_amd64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.56_amd64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
 ## Current release: 1.2.56
 
-| Architecture | Package | SHA-256 |
-|---|---|---|
-| x86_64 | [netcheck_1.2.56_x86_64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb) | `c3699706b82ea507f274dddca85a52a0793429943b5077e0e36e9ea57fce99d4` |
-| aarch64 | [netcheck_1.2.56_aarch64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_aarch64.deb) | `33817c88f3d791f7eb114044b14230de18458b659a31e12f057eb86e4289137a` |
+| Architecture | For NAS with | Package | SHA-256 |
+|---|---|---|---|
+| amd64 (x86-64) | Intel / AMD 64-bit models | [netcheck_1.2.56_amd64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_amd64.deb) | `c3699706b82ea507f274dddca85a52a0793429943b5077e0e36e9ea57fce99d4` |
+| arm64 (aarch64) | ARM 64-bit models | [netcheck_1.2.56_arm64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_arm64.deb) | `33817c88f3d791f7eb114044b14230de18458b659a31e12f057eb86e4289137a` |
+
+Not sure? `dpkg --print-architecture` over SSH tells you which one. 不确定机型时，SSH 执行 `dpkg --print-architecture`，输出什么后缀就下载哪个包。
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.56_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.56_aarch64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_arm64.deb.sha256
 ```
 
 ---
@@ -80,7 +84,7 @@ repository:
 - [Privileged channel (root helper) authorisation & least privilege](compliance/privileged-channel.md)
 - [Supply chain & build provenance](compliance/supply-chain.md)
 - [Software bill of materials](compliance/SBOM.json)
-- [Per-architecture package manifest](release/1.2.56/MANIFEST.x86_64.json) (package SHA-256 and every packaged file hash)
+- [Per-architecture package manifest](release/1.2.56/MANIFEST.amd64.json) (package SHA-256 and every packaged file hash)
 
 ## Highlights
 

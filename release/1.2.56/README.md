@@ -9,8 +9,8 @@ https://github.com/Moechz/netcheck/tree/main/compliance
 
 | File | Purpose |
 |---|---|
-| `netcheck_1.2.56_x86_64.deb` | installed payload for amd64 |
-| `netcheck_1.2.56_aarch64.deb` | installed payload for arm64 |
+| `netcheck_1.2.56_amd64.deb` | installed payload for amd64 |
+| `netcheck_1.2.56_arm64.deb` | installed payload for arm64 |
 | `MANIFEST.<arch>.json` | package SHA-256 + every packaged file hash + contract |
 | `maintainer-scripts/` | preinst / postinst / prerm / postrm as shipped |
 | `contract/expected.json` | platform integrity manifest (binary + webui hashes) |
@@ -21,7 +21,7 @@ https://github.com/Moechz/netcheck/tree/main/compliance
 
 ```bash
 sha256sum -c SHA256SUMS
-sha256sum -c netcheck_1.2.56_x86_64.deb.sha256
-dpkg-deb -e netcheck_1.2.56_x86_64.deb /tmp/netcheck-control   # maintainer scripts
-dpkg-deb -x netcheck_1.2.56_x86_64.deb /tmp/netcheck-payload   # installed payload
+sha256sum -c netcheck_1.2.56_amd64.deb.sha256
+dpkg-deb -e netcheck_1.2.56_amd64.deb /tmp/netcheck-control   # maintainer scripts
+dpkg-deb -x netcheck_1.2.56_amd64.deb /tmp/netcheck-payload   # installed payload
 ```
