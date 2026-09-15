@@ -1,11 +1,10 @@
 # NetCheck 隐私政策 / Privacy Policy
 
 - 适用应用：NetCheck（应用 ID `netcheck`），TerraMaster TOS 7 应用
-- 版本：1.2.54 · 生效日期：2026-09-11
-- 数据控制者 / Developer & Publisher：Moechz（zhoucaven@163.com）
-- 本政策同时随包分发（`/usr/local/netcheck/compliance/privacy-policy.md`），
-  并可通过应用内「关于 → 合规与政策」以及
-  https://github.com/Moechz/netcheck/tree/main/compliance 访问。
+- 版本：1.2.56 · 生效日期：2026-09-14
+- 数据控制者 / Developer & Publisher：Moechz（https://github.com/Moechz/netcheck/issues）
+- 本政策随包分发（`/usr/local/netcheck/compliance/privacy-policy.md`），
+  并发布于 https://github.com/Moechz/netcheck/tree/main/compliance 。
 
 ---
 
@@ -98,7 +97,7 @@ NetCheck 是一款**安装在您自己设备上的局域网网络诊断与修复
 - **撤回同意**：关闭监控、关闭报警通道、停止使用特权通道（`repair.mode=guide`）。
 
 完整命令与界面路径见 `data-rights.md`。由于数据保存在您自己的设备上，**无需
-向开发者提交申请**即可完成查阅、更正与删除；如需协助可通过 zhoucaven@163.com
+向开发者提交申请**即可完成查阅、更正与删除；如需协助可通过 GitHub Issues（https://github.com/Moechz/netcheck/issues）
 联系，我们将在 15 个工作日内答复。
 
 ### 7. 儿童
@@ -107,7 +106,7 @@ NetCheck 是一款**安装在您自己设备上的局域网网络诊断与修复
 
 ### 8. 政策变更
 
-政策随版本更新，最新版本始终随包分发并在应用「关于 → 合规与政策」中展示；
+政策随版本更新，最新版本始终随包分发；
 重大变更会在应用内提示，并更新本文件顶部的版本号与生效日期。
 
 ---
@@ -204,8 +203,7 @@ only become active after you configure them.
 Access, correction, export and deletion are performed directly on your own
 device — in the application UI, or by reading/removing the files listed above;
 no request to the developer is required. See `data-rights.md` for exact paths
-and commands. For assistance, contact zhoucaven@163.com (reply within 15
-business days).
+and commands. For assistance, open an issue at https://github.com/Moechz/netcheck/issues (reply within 15 business days).
 
 ### 7. Children
 
@@ -214,6 +212,6 @@ directed at children; no children's data is knowingly collected.
 
 ### 8. Changes
 
-This policy is versioned with the application, shipped in the package, shown
-under About → Compliance & Policies, and the version/date at the top is
+This policy is versioned with the application, shipped in the package,
+published at github.com/Moechz/netcheck, and the version/date at the top is
 updated on every material change.

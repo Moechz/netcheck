@@ -2,7 +2,7 @@
 # Privileged Channel (root helper): Authorisation Basis and Least-Privilege Implementation
 
 - 适用版本：NetCheck 1.2.54（应用 ID `netcheck`）
-- 本文回答审核项 **V1 / S1**：`netcheck-helper.service` 以 `User=root` 运行的
+- 本文回答审核项 **V1 / S1**：`netcheck-helper.service` 以 uid 0（`User=0`，数字形式以规避 TOS 对「root」用户名的重映射；能力边界不变）运行的
   授权依据与最小化权限实现。
 - 同时披露 1.2.52 起新增的 `netcheck-bpf.service`（同样以 root 运行），避免重审
   时再次出现「未见授权文件」的情况。
@@ -16,8 +16,8 @@
 | 单元 | 运行身份 | 作用 | 是否必需 |
 |---|---|---|---|
 | `netcheck.service` | `User=netcheck`（专用非 root 系统账户，`--no-create-home --shell /usr/sbin/nologin`） | 后端、WebUI 数据接口、诊断、监控 | 必需 |
-| `netcheck-helper.service` | `User=root` + **能力边界收窄** | 仅执行白名单内的网络修复动作 | **可选**（缺失时应用自动降级为「指引模式」） |
-| `netcheck-bpf.service` | `User=root` + **能力边界收窄**（1.2.52 起） | 只读实时速率计数（AF_PACKET + eBPF map） | **可选**（缺失/失败时自动回退 `/proc/net/dev`） |
+| `netcheck-helper.service` | `User=0` + **能力边界收窄** | 仅执行白名单内的网络修复动作 | **可选**（缺失时应用自动降级为「指引模式」） |
+| `netcheck-bpf.service` | `User=0` + **能力边界收窄**（1.2.52 起） | 只读实时速率计数（AF_PACKET + eBPF map） | **可选**（缺失/失败时自动回退 `/proc/net/dev`） |
 
 > 包内**不含**任何 setuid/setgid 文件或 `setcap` 二进制：
 > `find /usr/local/netcheck -perm -4000` 与 `getcap -r /usr/local/netcheck` 均为空；
@@ -64,16 +64,19 @@
 `init.d/netcheck-helper.service`：
 
 ```ini
-User=root
+User=0
+Group=0
 CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_NET_ADMIN
 NoNewPrivileges=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
 UMask=0077
 ```
 
+> `User=0`（数字 uid）等价于 root：部分 TOS 安装会把「root」这个**名字**重映射到无能力的诱饵账户（uid 9999，真实 root 是管理员用户本身），按名字解析会丢失全部能力；数字 uid 不受影响，能力边界不变。运行时目录 `/run/netcheck` 归一化为 `0:netcheck 0770`（setgid 位不可用：`RestrictSUIDSGID=true` 会拒绝任何设置 suid/sgid 位的 chmod）。
+
 | 保留的能力 | 用途（唯一必要性） |
 |---|---|
-| `CAP_CHOWN` | 启动时把 `/run/netcheck/token`、`helper.sock`、`/run/netcheck/` 的属主改为 `netcheck`，使非 root 主服务能读取令牌并连接套接字 |
+| `CAP_CHOWN` | 启动时把 `/run/netcheck/token`、`helper.sock` 的属主改为 `netcheck`、目录属组改为 `netcheck` 组（目录属主保持 uid 0，供 bpf 收集器创建套接字），使非 root 主服务能读取令牌并连接套接字 |
 | `CAP_DAC_OVERRIDE` | 兼容「`.network` 文件属主/权限变体」；真机默认属主为 uid 0 且含属主写位，本能力可按安装自检裁剪（审核若要求，可去掉并在自检中强制校验属主） |
 | `CAP_NET_ADMIN` | `ip link set`（MTU/up/down）、`sysctl -w net.ipv6.conf.*`、`networkctl reload/reconfigure`、`resolvectl dns/revert` |
 
@@ -86,12 +89,15 @@ UMask=0077
 `init.d/netcheck-bpf.service`（1.2.52 新增，只读计数）：
 
 ```ini
-User=root
+User=0
+Group=996
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_BPF CAP_PERFMON
 NoNewPrivileges=true
 RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_PACKET
 LimitMEMLOCK=infinity
 ```
+
+> `Group=996`（数字 gid = netcheck 组）：收集器创建的 `bpf-traffic.sock` 继承该组并以 0660 模式供主服务连接（不能用目录 setgid 位，原因同上）。
 
 | 保留的能力 | 用途 |
 |---|---|

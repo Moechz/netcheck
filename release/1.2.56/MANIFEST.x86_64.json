@@ -184,5 +184,12 @@
     "C4": "compliance/third-party-services.md",
     "C5": "compliance/data-rights.md",
     "S8/S9": "compliance/supply-chain.md + maintainer_scripts"
+  },
+  "package": {
+    "file": "netcheck_1.2.56_x86_64.deb",
+    "sha256": "c3699706b82ea507f274dddca85a52a0793429943b5077e0e36e9ea57fce99d4",
+    "bytes": 3164392,
+    "architecture": "amd64",
+    "verified_by": "sha256sum -c netcheck_1.2.56_x86_64.deb.sha256"
   }
 }

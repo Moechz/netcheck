@@ -32,7 +32,7 @@
 ### 2. 查阅
 
 - **界面**：历史（诊断/修复记录与下载）、快照（列表与差异对比）、设置（当前配置
-  与保留期限）、关于（版本、合规材料）。
+  与保留期限）、关于（版本信息）。
 - **接口**：`GET /api/diag/history`、`GET /api/fix/history`、`GET /api/snapshots`、
   `GET /api/settings`、`GET /api/alerts`（经平台代理并可被审计）。
 - **直接读取**：使用上表路径，例如
@@ -46,7 +46,7 @@
 | 诊断历史（JSON） | 历史 → 下载 | `GET /api/diag/history/export` |
 | 修复历史（JSON） | 历史 → 下载 | `GET /api/fix/history/export` |
 | 网络配置快照 | 快照 → 差异 | `GET /api/snapshots/{id}/diff` |
-| 合规材料 | 关于 → 合规与政策 | `compliance/` 目录文件 |
+| 合规材料 | 应用内嵌页面 `/netcheck/compliance/index.html` | `compliance/` 目录文件 |
 
 命令行示例（无需界面）：
 
@@ -98,7 +98,7 @@ sudo userdel netcheck 2>/dev/null || true
 ### 7. 响应时限与联系方式
 
 由于所有操作均在本地完成，通常无需等待。如需开发者协助（例如理解文件含义或
-迁移数据），请联系 **zhoucaven@163.com**，我们将在 **15 个工作日**内答复。
+迁移数据），请联系 **GitHub Issues（https://github.com/Moechz/netcheck/issues）**，我们将在 **15 个工作日**内答复。
 
 ---
 
@@ -131,4 +131,4 @@ the developer is needed.**
 - **Withdraw consent** — turn continuous monitoring off, keep alert channels
   disabled, switch repair mode to "guide" and
   `systemctl disable --now netcheck-helper.service`, or uninstall.
-- **Contact** — zhoucaven@163.com, reply within 15 business days.
+- **Contact** — https://github.com/Moechz/netcheck/issues, reply within 15 business days.

@@ -6,11 +6,11 @@
 | 位置 | 路径 / URL |
 |---|---|
 | 安装包内 | `/usr/local/netcheck/compliance/`（本目录原样打包） |
-| 应用界面 | 关于 → 合规与政策（`/netcheck/compliance/index.html`，由本目录 Markdown 生成） |
+| 应用界面 | 应用内嵌页面 `/netcheck/compliance/index.html`（由本目录 Markdown 生成，随包分发） |
 | 公开可访问 URL | https://github.com/Moechz/netcheck/tree/main/compliance |
 
 应用：NetCheck（应用 ID `netcheck`）· 开发者/发布者：Moechz · 版本：1.2.54
-联系邮箱：zhoucaven@163.com
+联系渠道 / Contact：https://github.com/Moechz/netcheck/issues
 
 ## 材料清单与审核项对应关系
 

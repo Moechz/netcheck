@@ -1,6 +1,6 @@
 # NetCheck — Network Diagnostics & Repair for TOS 7
 
-![Release](https://img.shields.io/badge/release-1.2.54-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
+![Release](https://img.shields.io/badge/release-1.2.56-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
 
 **NetCheck** is a network health application for TerraMaster NAS running **TOS 7**. It diagnoses connectivity problems from the TOS web UI, explains what broke and where, and walks you through safe repairs — no SSH required.
 
@@ -41,26 +41,26 @@ Version your network configuration with notes, diff before/after, and restore in
 Download the package matching your NAS architecture from [Releases](https://github.com/Moechz/netcheck/releases) or the table below, verify the checksum, and install with TOS package tools:
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_x86_64.deb
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.54_x86_64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.54_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_x86_64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.56_x86_64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.54
+## Current release: 1.2.56
 
 | Architecture | Package | SHA-256 |
 |---|---|---|
-| x86_64 | [netcheck_1.2.54_x86_64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_x86_64.deb) | `bbb61e5fc4d8f0e3073319056a044c83c62b5f951555a422ee92304845f2ca10` |
-| aarch64 | [netcheck_1.2.54_aarch64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.54/netcheck_1.2.54_aarch64.deb) | `555867c13ef79aabe1a98c55a81605f3dc83f4369206c8017b8a07eff96675cf` |
+| x86_64 | [netcheck_1.2.56_x86_64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_x86_64.deb) | `c3699706b82ea507f274dddca85a52a0793429943b5077e0e36e9ea57fce99d4` |
+| aarch64 | [netcheck_1.2.56_aarch64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.56/netcheck_1.2.56_aarch64.deb) | `33817c88f3d791f7eb114044b14230de18458b659a31e12f057eb86e4289137a` |
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.54_x86_64.deb.sha256
-shasum -a 256 -c netcheck_1.2.54_aarch64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_x86_64.deb.sha256
+shasum -a 256 -c netcheck_1.2.56_aarch64.deb.sha256
 ```
 
 ---
@@ -80,7 +80,7 @@ repository:
 - [Privileged channel (root helper) authorisation & least privilege](compliance/privileged-channel.md)
 - [Supply chain & build provenance](compliance/supply-chain.md)
 - [Software bill of materials](compliance/SBOM.json)
-- [Per-architecture package manifest](release/1.2.54/MANIFEST.x86_64.json) (package SHA-256 and every packaged file hash)
+- [Per-architecture package manifest](release/1.2.56/MANIFEST.x86_64.json) (package SHA-256 and every packaged file hash)
 
 ## Highlights
 

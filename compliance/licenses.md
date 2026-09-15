@@ -15,7 +15,7 @@
 
 | 组件 | 许可证 | 版权 |
 |---|---|---|
-| NetCheck（Python 后端、WebUI、Go 采集器、eBPF 源码、构建脚本、文档） | **Apache-2.0** | Copyright 2026 Moechz <zhoucaven@163.com> |
+| NetCheck（Python 后端、WebUI、Go 采集器、eBPF 源码、构建脚本、文档） | **Apache-2.0** | Copyright 2026 Moechz |
 
 Apache-2.0 全文见 `LICENSE`（本目录同名文件即包内 `/usr/local/netcheck/LICENSE`）。
 
@@ -75,7 +75,7 @@ copyleft 交互发生在与 TOS 系统组件（systemd、iproute2 等）的进�
 ## 二、English version
 
 - **NetCheck itself** — Apache-2.0, Copyright 2026 Moechz
-  <zhoucaven@163.com>. Full text shipped as `LICENSE`.
+Full text shipped as `LICENSE`.
 - **Third-party components redistributed inside `bin/netcheck-bpf`** —
   github.com/cilium/ebpf v0.15.0 (MIT), golang.org/x/sys v0.15.0
   (BSD-3-Clause), golang.org/x/exp (BSD-3-Clause), and the cilium/ebpf example

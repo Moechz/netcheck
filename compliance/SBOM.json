@@ -6,17 +6,13 @@
     "timestamp": "2026-09-11T16:00:00+08:00",
     "component": {
       "type": "application",
-      "bom-ref": "netcheck@1.2.54",
+      "bom-ref": "netcheck@1.2.56",
       "name": "NetCheck",
-      "version": "1.2.54",
+      "version": "1.2.56",
       "author": "Moechz",
       "supplier": {
         "name": "Moechz",
-        "contact": [
-          {
-            "email": "zhoucaven@163.com"
-          }
-        ]
+        "url": "https://github.com/Moechz/netcheck"
       },
       "licenses": [
         {
