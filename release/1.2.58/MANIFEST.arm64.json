@@ -1,8 +1,8 @@
 {
   "app": "netcheck",
   "version": "1.2.58",
-  "platform": "x86_64",
-  "deb_architecture": "amd64",
+  "platform": "aarch64",
+  "deb_architecture": "arm64",
   "install_root": "/usr/local/netcheck",
   "compliance_dir": "/usr/local/netcheck/compliance",
   "public_docs": "https://github.com/Moechz/netcheck/tree/main/compliance",
@@ -71,8 +71,8 @@
       "bytes": 2576
     },
     "compliance/SBOM.json": {
-      "sha256": "b2215e9eeea18ec0e71209b3aa85d47e7d78c9480d76448d50e3acccef855016",
-      "bytes": 4577
+      "sha256": "6b77f19961fc6cd71a51dc6bd8fe541591708eed189d3c6c477da3a6e1aa4e6f",
+      "bytes": 4578
     },
     "compliance/data-rights.md": {
       "sha256": "db5bdcc37b65da9097bff3a3428205e7b906f6cf8a4fcb0586e5e25115e3bc98",
@@ -123,8 +123,8 @@
       "bytes": 1574
     },
     "config.ini": {
-      "sha256": "0d059f0b741934fcce94df305a7778231cd1512b675fa9de296c9ff6dcedb824",
-      "bytes": 690
+      "sha256": "bd8f562dea45c46d622ae06658b496cb5b30455f06a8ee8d2413295de4fb2cdf",
+      "bytes": 691
     },
     "version.json": {
       "sha256": "4d3a5066cc0c28021740b9c6f2247348904c1736687df47820bfa13ef1ccd83d",
@@ -137,10 +137,10 @@
   },
   "contract": {
     "backend_binary_sha256": "57baf0c00452eeba81bf03ff98b5993b310c8de6a47b41ea9066024bb5ce3852",
-    "bpf_collector_binary_sha256": "7b946ded0a8470cd9b7f55fe9e07783a13db61c07f2ac1b3a781c8a99de09faa",
+    "bpf_collector_binary_sha256": "98dac69da9eddd5be27ec5e3e41841f6f7991db3054e534c040ca5124462e58f",
     "helper_binary_sha256": "830654a28e143537e7fed35ed2b7465603bb2c80f9e39a15715d100ebacf19ce",
     "version": "1.2.58",
-    "webui_bz2_sha256": "28e41d22e2d2288dee8f6b31243b450ec496ff49012759a70ac380789c2c51f7"
+    "webui_bz2_sha256": "5eaf09fec3b23e5495145981e36fe3c37cbe08cfdc5027e6c76e3ab778ba2ad1"
   },
   "service_units": {
     "netcheck.service": {
@@ -184,5 +184,12 @@
     "C4": "compliance/third-party-services.md",
     "C5": "compliance/data-rights.md",
     "S8/S9": "compliance/supply-chain.md + maintainer_scripts"
+  },
+  "package": {
+    "file": "netcheck_1.2.58_arm64.deb",
+    "sha256": "e14bbc684d192e3240cb2ba1fc6353e690e473372dd1845e6020e85241bd6b37",
+    "bytes": 2951800,
+    "architecture": "arm64",
+    "verified_by": "sha256sum -c netcheck_1.2.58_arm64.deb.sha256"
   }
 }

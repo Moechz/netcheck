@@ -1,6 +1,6 @@
 # NetCheck — Network Diagnostics & Repair for TOS 7
 
-![Release](https://img.shields.io/badge/release-1.2.57-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
+![Release](https://img.shields.io/badge/release-1.2.58-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
 
 **NetCheck** is a network health application for TerraMaster NAS running **TOS 7**. It diagnoses connectivity problems from the TOS web UI, explains what broke and where, and walks you through safe repairs — no SSH required.
 
@@ -43,28 +43,28 @@ Download the package matching your NAS architecture from [Releases](https://gith
 **Which package do I need?** Run `dpkg --print-architecture` over SSH — its output (`amd64` or `arm64`) is exactly the file suffix you need. Alternatively, check the CPU in TOS Control Panel: Intel/AMD processors → `amd64`, ARM processors → `arm64`. The suffix always matches the package's internal Debian architecture, so `dpkg -i` will also refuse a mismatched one.
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.57/netcheck_1.2.57_amd64.deb
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.57/netcheck_1.2.57_amd64.deb.sha256
-shasum -a 256 -c netcheck_1.2.57_amd64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.57_amd64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.58/netcheck_1.2.58_amd64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.58/netcheck_1.2.58_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.58_amd64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.58_amd64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.57
+## Current release: 1.2.58
 
 | Architecture | For NAS with | Package | SHA-256 |
 |---|---|---|---|
-| amd64 (x86-64) | Intel / AMD 64-bit models | [netcheck_1.2.57_amd64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.57/netcheck_1.2.57_amd64.deb) | `88d4121b82de6e449c5fc53001b8fabfbb2394192b74d84c863268c06a5360c5` |
-| arm64 (aarch64) | ARM 64-bit models | [netcheck_1.2.57_arm64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.57/netcheck_1.2.57_arm64.deb) | `feded3ae5acbb3fd67679ce893f5b0e29786f14009948d37031f9e1148c662e2` |
+| amd64 (x86-64) | Intel / AMD 64-bit models | [netcheck_1.2.58_amd64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.58/netcheck_1.2.58_amd64.deb) | `ea7b7c850773eef05e7bbff95fd1ccab1c2f3186af0092ef40263275d0322d22` |
+| arm64 (aarch64) | ARM 64-bit models | [netcheck_1.2.58_arm64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.58/netcheck_1.2.58_arm64.deb) | `e14bbc684d192e3240cb2ba1fc6353e690e473372dd1845e6020e85241bd6b37` |
 
 Not sure? `dpkg --print-architecture` over SSH tells you which one. 不确定机型时，SSH 执行 `dpkg --print-architecture`，输出什么后缀就下载哪个包。
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.57_amd64.deb.sha256
-shasum -a 256 -c netcheck_1.2.57_arm64.deb.sha256
+shasum -a 256 -c netcheck_1.2.58_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.58_arm64.deb.sha256
 ```
 
 ---
@@ -84,7 +84,7 @@ repository:
 - [Privileged channel (root helper) authorisation & least privilege](compliance/privileged-channel.md)
 - [Supply chain & build provenance](compliance/supply-chain.md)
 - [Software bill of materials](compliance/SBOM.json)
-- [Per-architecture package manifest](release/1.2.57/MANIFEST.amd64.json) (package SHA-256 and every packaged file hash)
+- [Per-architecture package manifest](release/1.2.58/MANIFEST.amd64.json) (package SHA-256 and every packaged file hash)
 
 ## Highlights
 

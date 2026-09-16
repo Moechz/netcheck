@@ -205,6 +205,22 @@ as root with a **capability bounding set of
 contains no setuid/setgid file and no `setcap` binary — both root processes can
 only be started by systemd from the packaged units.
 
+**Platform exec-compat exception (1.2.58).** A small number of TOS builds
+(observed 2026-09-15 on one production NAS, systemd 249) reject `execve` under
+`NoNewPrivileges` with systemd `203/EXEC` — even for `/bin/true` — and on that
+same build `RestrictSUIDSGID`/`RestrictAddressFamilies` additionally break
+exec for the non-root service user. The package therefore probes this once at
+install time (`systemd-run` transient units, 15 s timeout, `--collect`
+cleanup, result written to the dpkg log). Only when the probe fails does
+postinst install `80-netcheck-exec-compat.conf` drop-ins that set
+`NoNewPrivileges=false` (plus `RestrictSUIDSGID=false` and a cleared
+`RestrictAddressFamilies` for the non-root backend only). Capability bounding
+sets, service users, socket ownership and every other isolation directive are
+unchanged by this path, and the drop-ins are removed automatically once the
+platform probe passes again. Unaffected platforms keep the fully hardened
+templates (verified on two production NAS units); the relaxation path was
+verified on the affected unit via equivalent field drop-ins.
+
 ### Why privilege is required
 
 TOS 7 exposes no network-write API, and `/etc/systemd/network/*.network` is
@@ -254,3 +270,34 @@ rollback, JSONL audit with redaction, 30-second per-action rate limit, serial
 execution lock, `SO_PEERCRED` peer-UID plus startup-token authentication, and
 platform contract hash verification. Reviewers can self-verify with the
 commands in section 7.
+
+---
+
+## 9. 执行兼容降级（exec-compat，1.2.58）
+
+**背景**：2026-09-15 在一台生产 NAS（TOS，systemd 249）上实测：该平台的
+systemd 在 `NoNewPrivileges=true` 下拒绝任何 `execve`（`203/EXEC`，连
+`/bin/true` 都失败）；同一平台上 `RestrictSUIDSGID=true` 或
+`RestrictAddressFamilies=…` 对非 root 服务用户同样导致 exec 失败。三个
+服务因此全部无法启动，页面表现为 TOS 代理报 `invalid api socket`。
+
+**机制**：安装脚本（postinst）在安装时做一次性最小探测——用
+`systemd-run --wait --collect` 分别验证 (a) `NoNewPrivileges=true` 下能否
+exec；(b) 非特权用户叠加全部沙箱过滤后能否 exec。探测有 15 秒超时、
+`--collect` 清理临时 unit、结果写入 dpkg 日志。**仅当探测失败**才安装
+`80-netcheck-exec-compat.conf` 降级 drop-in：主后端
+`NoNewPrivileges=false` + `RestrictSUIDSGID=false` + 清空
+`RestrictAddressFamilies`；两个特权服务仅 `NoNewPrivileges=false`。
+
+**不妥协项**：该路径不扩大 CapabilityBoundingSet、不改变服务用户
+（主后端仍为非特权 `netcheck`，特权服务仍为数字 uid 0）、不改变 socket
+属主与 0600/0660 权限、不新增 setuid/setgid 文件。探测通过的平台继续
+使用完整加固模板（两台生产 NAS 验证）；降级文件在后续安装探测通过时
+自动移除。可用环境变量 `NETCHECK_EXEC_COMPAT=force|off` 覆盖探测（测试
+钩子）。
+
+**旧现场补丁迁移**：升级时会识别现场修复产生的
+`90-tos-compat.conf`（已知文件名），先备份到
+`/var/backups/netcheck/legacy-dropins-<时间戳>/` 再移除，避免旧覆盖与新
+模板叠层冲突；其他自定义 drop-in 一律不动并告警。卸载（purge）只删除
+本包生成的 `80-netcheck-exec-compat.conf`。
