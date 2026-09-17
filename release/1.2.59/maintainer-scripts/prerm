@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+systemctl stop netcheck.service netcheck-helper.service netcheck-bpf.service 2>/dev/null || true
+systemctl disable netcheck.service netcheck-helper.service netcheck-bpf.service 2>/dev/null || true
+exit 0

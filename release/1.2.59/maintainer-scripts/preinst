@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+# Keep this script intentionally minimal: dpkg can unpack the package even
+# before the dedicated service user exists.
+exit 0

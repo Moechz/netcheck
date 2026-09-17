@@ -15,6 +15,8 @@
 | 开发仓库（全部源码、设计文档、测试、构建脚本） | `Moechz/TOS-netcheck-pv` | 私有（开发期） |
 | 发布仓库（.deb 产物、版本表、合规材料副本） | `Moechz/netcheck` | 公开：https://github.com/Moechz/netcheck |
 | 合规材料（本目录） | `Moechz/netcheck/compliance/` | 公开 URL，可直接下载比对 |
+| **eBPF/Go 采集器源码（`bin/netcheck-bpf` 的可审计源码，审核 V6）** | `Moechz/netcheck` 仓库 `bpfcollector/` 目录（不含 vendor，`go.sum` 锁定依赖版本） | 公开：https://github.com/Moechz/netcheck/tree/main/bpfcollector |
+| 源码版本快照 | 每个 Release 附带 `netcheck_<版本>_bpf-src.tar.gz`（含 SHA-256） | 公开，随 Release 下载 |
 
 应用的全部二进制均由上述开发仓库在受控构建机上生成，无第三方预编译产物：
 `bin/netcheck`、`bin/netcheck-helper` 是包内 Python 入口脚本，`bin/netcheck-bpf`
