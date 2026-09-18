@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>材料索引 / Dossier Index · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><section id="block-zh"><div class="toc"><b>目录 / Contents</b><a href="#材料清单与审核项对应关系">材料清单与审核项对应关系</a><a href="#离线核验">离线核验</a><a href="#语言">语言</a></div><h1 id="netcheck-合规与材料索引-compliance-dossier">NetCheck 合规与材料索引（Compliance Dossier）</h1>
+<p>本目录是 NetCheck 面向 TOS 应用上架审核（通用模板2）提交的合规材料集合。 它同时存在于三个位置，内容完全一致：</p>
+<table><thead><tr><th>位置</th><th>路径 / URL</th></tr></thead><tbody><tr><td>安装包内</td><td><code>/usr/local/netcheck/compliance/</code>（本目录原样打包）</td></tr><tr><td>应用界面</td><td>应用内嵌页面 <code>/netcheck/compliance/index.html</code>（由本目录 Markdown 生成，随包分发）</td></tr><tr><td>公开可访问 URL</td><td>https://github.com/Moechz/netcheck/tree/main/compliance</td></tr></tbody></table>
+<p>应用：NetCheck（应用 ID <code>netcheck</code>）· 开发者/发布者：Moechz · 版本：1.2.54 联系渠道 / Contact：https://github.com/Moechz/netcheck/issues</p>
+<h2 id="材料清单与审核项对应关系">材料清单与审核项对应关系</h2>
+<table><thead><tr><th>审核项</th><th>要求</th><th>提供的材料</th></tr></thead><tbody><tr><td>V1 / S1</td><td>root 辅助服务 R1 特批/授权文件，或最小化权限实现</td><td><a href="privileged-channel.md"><code>privileged-channel.md</code></a>（授权依据、能力最小化清单、白名单、审计、降级与关闭方法、平台核验命令）</td></tr><tr><td>C2</td><td>隐私政策（保存期限、用户权利、安全措施、第三方共享、删除途径）</td><td><a href="privacy-policy.md"><code>privacy-policy.md</code></a></td></tr><tr><td>C3</td><td>开源许可证及依赖许可声明</td><td><a href="licenses.md"><code>licenses.md</code></a>、<code>LICENSE</code>、<code>NOTICE</code>、<code>licenses/</code>（各许可证全文）</td></tr><tr><td>C4</td><td>第三方服务/API 说明（数据去向、传输地域、共享情况）</td><td><a href="third-party-services.md"><code>third-party-services.md</code></a></td></tr><tr><td>C5</td><td>用户数据查阅、更正、删除途径</td><td><a href="data-rights.md"><code>data-rights.md</code></a></td></tr><tr><td>S8 / S9（可选）</td><td>.deb、维护脚本、供应链来源说明</td><td><a href="supply-chain.md"><code>supply-chain.md</code></a>、<code>MANIFEST.json</code>、<code>SBOM.json</code></td></tr></tbody></table>
+<h2 id="离线核验">离线核验</h2>
+<p>安装后在设备上可直接核验这些材料，无需联网：</p>
+<pre><code># 材料清单与哈希（与发布包一一对应）
+cat /usr/local/netcheck/compliance/MANIFEST.json
+
+# 组件清单（SBOM）
+cat /usr/local/netcheck/compliance/SBOM.json
+
+# 许可证全文
+ls /usr/local/netcheck/compliance/licenses/
+cat /usr/local/netcheck/LICENSE</code></pre>
+<p><code>MANIFEST.json</code> 由构建流程生成，包含包内每个合规文件的 SHA-256、契约哈希 （<code>contract/expected.json</code> 的二进制哈希）、.deb 维护脚本（<code>preinst/postinst/prerm/postrm</code>） 的 SHA-256 与字节数，供审核逐项比对。</p>
+<h2 id="语言">语言</h2>
+<p><code>privacy-policy.md</code>、<code>third-party-services.md</code>、<code>data-rights.md</code>、 <code>privileged-channel.md</code>、<code>supply-chain.md</code> 均为中英双语（每篇先中文、后英文）。 <code>licenses.md</code>/<code>NOTICE</code> 的许可证全文按原许可证语言（英文）提供。</p></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main></body></html>

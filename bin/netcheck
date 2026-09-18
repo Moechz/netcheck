@@ -1,0 +1,21 @@
+#!/usr/bin/python3
+"""NetCheck backend entry point (systemd unit ExecStart)."""
+import os
+import sys
+
+# Layout: <app_root>/bin/netcheck, package at <app_root>/lib/netcheck
+APP_ROOT = os.environ.get("NETCHECK_ROOT") or os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(APP_ROOT, "lib"))
+
+DATA_DIR = os.environ.get("NETCHECK_DATA") or os.path.join(APP_ROOT, "data")
+LOG_DIR = os.environ.get("NETCHECK_LOGS") or os.path.join(APP_ROOT, "logs")
+SOCK_PATH = os.environ.get("NETCHECK_SOCK") or "/var/api/netcheck.sock"
+
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(LOG_DIR, exist_ok=True)
+
+from netcheck.app import run  # noqa: E402
+
+if __name__ == "__main__":
+    run(APP_ROOT, SOCK_PATH, DATA_DIR, LOG_DIR)

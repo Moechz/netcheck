@@ -1,7 +1,7 @@
 # NetCheck 隐私政策 / Privacy Policy
 
 - 适用应用：NetCheck（应用 ID `netcheck`），TerraMaster TOS 7 应用
-- 版本：1.2.59 · 生效日期：2026-09-14
+- 版本：1.2.60 · 生效日期：2026-09-14
 - 数据控制者 / Developer & Publisher：Moechz（https://github.com/Moechz/netcheck/issues）
 - 本政策随包分发（`/usr/local/netcheck/compliance/privacy-policy.md`），
   并发布于 https://github.com/Moechz/netcheck/tree/main/compliance 。

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开源许可与依赖声明 / Licenses &amp; Dependencies · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><div class="langbar"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div><section id="block-zh"><h1 id="开源许可证与依赖许可声明">开源许可证与依赖许可声明</h1>
+<h1 id="open-source-licenses-and-dependency-notices">Open-Source Licenses and Dependency Notices</h1>
+<ul><li>适用版本：NetCheck 1.2.54（应用 ID <code>netcheck</code>）</li><li>本文回答审核项 <strong>C3</strong>。许可证全文随包分发于 <code>/usr/local/netcheck/compliance/licenses/</code>，应用本体许可证为 <code>/usr/local/netcheck/LICENSE</code>，版权与第三方声明为 <code>/usr/local/netcheck/NOTICE</code>（包内同时提供 <code>/usr/share/doc/netcheck/copyright</code>）。</li></ul>
+<hr>
+<h2 id="一-中文版">一、中文版</h2>
+<h3 id="1-应用本体">1. 应用本体</h3>
+<table><thead><tr><th>组件</th><th>许可证</th><th>版权</th></tr></thead><tbody><tr><td>NetCheck（Python 后端、WebUI、Go 采集器、eBPF 源码、构建脚本、文档）</td><td><strong>Apache-2.0</strong></td><td>Copyright 2026 Moechz</td></tr></tbody></table>
+<p>Apache-2.0 全文见 <code>LICENSE</code>（本目录同名文件即包内 <code>/usr/local/netcheck/LICENSE</code>）。</p>
+<h3 id="2-运行时随包分发的第三方组件">2. 运行时随包分发的第三方组件</h3>
+<p><code>bin/netcheck-bpf</code>（Go 静态链接，依赖已 vendor 于 <code>bpfcollector/vendor/</code>）：</p>
+<table><thead><tr><th>组件</th><th>版本</th><th>许可证</th><th>声明文件</th></tr></thead><tbody><tr><td>github.com/cilium/ebpf</td><td>v0.15.0</td><td>MIT</td><td><code>licenses/cilium-ebpf-MIT.txt</code></td></tr><tr><td>golang.org/x/sys</td><td>v0.15.0</td><td>BSD-3-Clause</td><td><code>licenses/golang-x-sys-BSD-3-Clause.txt</code></td></tr><tr><td>golang.org/x/exp</td><td>2023-02-24 快照</td><td>BSD-3-Clause</td><td><code>licenses/golang-x-exp-BSD-3-Clause.txt</code></td></tr><tr><td>cilium/ebpf 示例头文件（<code>bpfcollector/_headers/</code>，编译进 eBPF 对象）</td><td>随 cilium/ebpf v0.15.0</td><td>BSD-2-Clause</td><td><code>licenses/cilium-ebpf-examples-headers-BSD-2-Clause.txt</code></td></tr></tbody></table>
+<p><code>bin/netcheck-bpf</code> 以 <code>-trimpath -ldflags='-s -w -buildid='</code> 构建，未修改上游源码， 未添加任何 copyleft 组件；组合后的二进制仅包含 Apache-2.0 / MIT / BSD-2 / BSD-3 四种宽松许可证代码。</p>
+<h3 id="3-运行时使用的系统组件-未随包分发-未修改">3. 运行时使用的系统组件（未随包分发、未修改）</h3>
+<table><thead><tr><th>组件</th><th>许可证</th><th>说明</th></tr></thead><tbody><tr><td>Python 3.10 标准库</td><td>PSF-2.0</td><td>后端全部逻辑仅使用标准库（<code>http.server</code>、<code>socket</code>、<code>hashlib</code> 等）</td></tr><tr><td>systemd / systemd-networkd / networkctl / resolvectl</td><td>LGPL-2.1-or-later</td><td>以命令行与 D-Bus 方式调用，未链接、未修改、未分发</td></tr><tr><td>iproute2（<code>ip</code>、<code>ss</code>）、<code>ping</code>、<code>traceroute</code>、<code>dig</code>、<code>ntpq</code>、<code>iperf3</code>（可选）、<code>ethtool</code>、<code>pgrep</code> 等</td><td>GPL-2.0 / 各自许可</td><td>仅以独立进程方式调用（execve，无 shell），未链接、未修改、未分发</td></tr><tr><td>Linux 内核（AF_PACKET、BPF、/proc、/sys）</td><td>GPL-2.0</td><td>使用内核公开 UAPI，未分发内核代码；eBPF 程序为独立加载的 BPF 字节码，内核要求其自身 license 字段仅用于兼容性声明（源码为 Apache-2.0 项目文件）</td></tr></tbody></table>
+<blockquote>说明：以上系统组件由 TOS 系统提供，应用不复制、不打包、不修改它们的文件； 若审核需要确认「GPL 传染性」，结论是<strong>它们全部以独立进程/系统调用边界交互， 不构成衍生作品</strong>。</blockquote>
+<h3 id="4-仅构建期使用-不随包分发">4. 仅构建期使用（不随包分发）</h3>
+<table><thead><tr><th>工具</th><th>许可证</th><th>用途</th></tr></thead><tbody><tr><td>javascript-obfuscator 5.6.0</td><td>BSD-2-Clause</td><td>前端 JS 压缩混淆（L2 保护）</td></tr><tr><td>terser 5.51.2</td><td>BSD-2-Clause</td><td>备用 JS 压缩</td></tr><tr><td>Node.js 18+</td><td>MIT</td><td>前端检查/构建脚本</td></tr><tr><td>Go toolchain 1.23+</td><td>BSD-3-Clause</td><td>构建 <code>netcheck-bpf</code></td></tr><tr><td>clang / LLVM、libbpf 头文件</td><td>Apache-2.0 WITH LLVM-exception / BSD-2-Clause OR LGPL-2.1</td><td>仅在 Linux 上重新生成 <code>_bpf/traffic.bpf.o</code>（常规构建使用仓库内已提交的 .o）</td></tr></tbody></table>
+<h3 id="5-参考实现与可选依赖">5. 参考实现与可选依赖</h3>
+<table><thead><tr><th>项</th><th>许可证</th><th>说明</th></tr></thead><tbody><tr><td>sivel/speedtest-cli</td><td>Apache-2.0</td><td>带宽测速的<strong>思路参考</strong>（服务器列表解析与分段传输流程）；NetCheck 使用自有实现（<code>lib/netcheck/bandwidth/ookla.py</code>），并在此声明归属以避免歧义</td></tr><tr><td><code>requests</code>（可选）</td><td>Apache-2.0</td><td><strong>不随包分发</strong>。仅当运维人员自行放入 <code>&lt;app_root&gt;/depends/</code> 时被本地加载使用</td></tr><tr><td>Speedtest.net / Ookla 名称与端点</td><td>商标与使用条款</td><td>仅在用户主动测速时访问其公开端点，未分发其软件、未使用其商标作为产品名（界面显示为「Ookla 兼容模式」）</td></tr></tbody></table>
+<h3 id="6-无-copyleft-捆绑声明">6. 无 copyleft 捆绑声明</h3>
+<p>包内<strong>不含</strong> GPL / LGPL / AGPL / SSPL / BUSL 许可的代码、库或二进制；唯一的 copyleft 交互发生在与 TOS 系统组件（systemd、iproute2 等）的进程边界上。</p>
+<hr>
+</section><section id="block-en" hidden><h2 id="二-english-version">二、English version</h2>
+<ul><li><strong>NetCheck itself</strong> — Apache-2.0, Copyright 2026 Moechz Full text shipped as <code>LICENSE</code>.</li><li><strong>Third-party components redistributed inside <code>bin/netcheck-bpf</code></strong> — github.com/cilium/ebpf v0.15.0 (MIT), golang.org/x/sys v0.15.0 (BSD-3-Clause), golang.org/x/exp (BSD-3-Clause), and the cilium/ebpf example headers under <code>bpfcollector/_headers/</code> (BSD-2-Clause) compiled into the eBPF object. Vendored, unmodified, permissively licensed only. Full texts are in <code>licenses/</code>.</li><li><strong>System components used but not redistributed</strong> — the Python 3.10 standard library (PSF-2.0) is the only runtime dependency; systemd/networkctl/ resolvectl (LGPL-2.1-or-later), iproute2, ping, traceroute, dig, ntpq, the optional iperf3 and ethtool (GPL-2.0 or their own licenses) are invoked as separate processes over execve/D-Bus and are neither linked, modified nor distributed. The kernel (AF_PACKET, BPF, /proc, /sys) is used through public UAPI only.</li><li><strong>Build-only tools (not shipped)</strong> — javascript-obfuscator 5.6.0 (BSD-2), terser (BSD-2), Node.js (MIT), Go toolchain (BSD-3), clang/LLVM (Apache-2.0 WITH LLVM-exception) and libbpf headers (BSD-2 OR LGPL-2.1), the latter only when regenerating the eBPF object on Linux.</li><li><strong>Reference implementations / optional dependencies</strong> — sivel/speedtest-cli (Apache-2.0) is credited as the conceptual reference for the bandwidth test flow; NetCheck uses its own implementation. The optional <code>requests</code> module (Apache-2.0) is never shipped and only used if an operator places it under <code>&lt;app_root&gt;/depends/</code>.</li><li><strong>No copyleft is bundled</strong>: the package contains no GPL/LGPL/AGPL/SSPL/BUSL code, library or binary.</li></ul></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main><script>
+(function(){
+  var zh=document.getElementById('lang-zh'),en=document.getElementById('lang-en');
+  if(!zh||!en)return;
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    var showZh=lang!=='en';
+    document.getElementById('block-zh').hidden=!showZh;
+    document.getElementById('block-en').hidden=showZh;
+    zh.setAttribute('aria-pressed',String(showZh));
+    en.setAttribute('aria-pressed',String(!showZh));
+  }
+  zh.addEventListener('click',function(){apply('zh');});
+  en.addEventListener('click',function(){apply('en');});
+  var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+  apply(q==='en'?'en':'zh');
+})();
+</script></body></html>

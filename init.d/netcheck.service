@@ -1,0 +1,31 @@
+[Unit]
+Description=NetCheck network diagnosis backend
+After=network.target
+
+[Service]
+Type=simple
+User=netcheck
+Group=netcheck
+WorkingDirectory=/usr/local/netcheck
+ExecStart=/usr/local/netcheck/bin/netcheck
+Environment=NETCHECK_ROOT=/usr/local/netcheck
+Environment=NETCHECK_SOCK=/var/api/netcheck.sock
+Environment=NETCHECK_DATA=/usr/local/netcheck/data
+Environment=NETCHECK_LOGS=/usr/local/netcheck/logs
+# NOTE: no Restart=/RestartSec= on purpose - the TOS App Center manages
+# application lifecycle (store review item S05); units start at boot via
+# WantedBy= + enable, and a crashed unit surfaces as an explicit failure
+# instead of silently restart-looping.
+NoNewPrivileges=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+UMask=0027
+# Namespace-based sandboxing (ProtectSystem/PrivateTmp) is unavailable on TOS
+# 7.0.1140: it fails with 226/NAMESPACE (kernel 6.12.63, real-device verified).
+# NOTE: ProtectSystem=strict removed - causes 226/NAMESPACE on TOS 7.0.1140
+# kernel 6.12.63 (real-device verified 2026-08-26). Runtime data isolation is
+# maintained by User=netcheck + directory ownership (data/, logs/ owned by
+# netcheck). Re-evaluate sandbox directives after TOS platform testing.
+
+[Install]
+WantedBy=multi-user.target

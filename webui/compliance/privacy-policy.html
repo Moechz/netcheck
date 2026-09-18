@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>隐私政策 / Privacy Policy · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><div class="langbar"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div><section id="block-zh"><h1 id="netcheck-隐私政策-privacy-policy">NetCheck 隐私政策 / Privacy Policy</h1>
+<ul><li>适用应用：NetCheck（应用 ID <code>netcheck</code>），TerraMaster TOS 7 应用</li><li>版本：1.2.60 · 生效日期：2026-09-14</li><li>数据控制者 / Developer &amp; Publisher：Moechz（https://github.com/Moechz/netcheck/issues）</li><li>本政策随包分发（<code>/usr/local/netcheck/compliance/privacy-policy.md</code>）， 并发布于 https://github.com/Moechz/netcheck/tree/main/compliance 。</li></ul>
+<hr>
+<h2 id="一-中文版">一、中文版</h2>
+<h3 id="1-总述">1. 总述</h3>
+<p>NetCheck 是一款<strong>安装在您自己设备上的局域网网络诊断与修复工具</strong>。它不提供 云端账号，不含广告、统计 SDK 或崩溃上报，<strong>不会向开发者或任何第三方回传您的 数据</strong>。所有账户、诊断结果、历史记录与日志均保存在您设备的本地磁盘上，由您 （设备管理员）完全控制。</p>
+<h3 id="2-我们-应用-处理哪些数据">2. 我们（应用）处理哪些数据</h3>
+<table><thead><tr><th>类别</th><th>具体内容</th><th>来源</th></tr></thead><tbody><tr><td>本地账户凭据</td><td>用户名；口令的 PBKDF2-HMAC-SHA256（200,000 次迭代）散列与随机盐；一次性恢复码的散列</td><td>由您在首次初始化时设置</td></tr><tr><td>会话数据</td><td>登录会话令牌（随机 32 字节）、签发/过期时间</td><td>登录时生成</td></tr><tr><td>网络配置与状态</td><td>网卡名称/状态/速率、IP 地址、网关、DNS、MTU、路由、bond/OVS 拓扑、TOS 服务状态</td><td>从内核与本机 TOS 接口只读采集</td></tr><tr><td>诊断结果</td><td>35 项检查的状态、评分、问题描述与建议</td><td>诊断运行时生成</td></tr><tr><td>带宽测量结果</td><td>上/下行速率、时延、抖动、所用方法与目标端点</td><td>由您主动发起测速时生成</td></tr><tr><td>链路质量趋势</td><td>周期性采样的丢包率、RTT、接口字节计数</td><td>监控开启时生成</td></tr><tr><td>配置快照</td><td><code>/etc/systemd/network/*.network</code> 等网络配置文件的副本与元数据</td><td>修复前自动或您手动创建</td></tr><tr><td>修复备份与审计</td><td>修复动作、参数、结果、耗时、操作者、目标对象、回滚记录</td><td>执行修复时生成</td></tr></tbody></table>
+<p><strong>不处理的数据</strong>：不读取、不索引、不上传您的任何文件内容、共享文件夹内容、 媒体库或个人文档；采集网络统计时不保存数据包载荷。</p>
+<h3 id="3-数据存储位置与保存期限">3. 数据存储位置与保存期限</h3>
+<p>所有数据都存储在应用目录 <code>/usr/local/netcheck/</code>（App Center 安装时可能映射到 所选存储卷下的应用目录）：</p>
+<table><thead><tr><th>数据</th><th>路径</th><th>保存期限（默认）</th><th>到期行为</th></tr></thead><tbody><tr><td>账户与恢复码散列</td><td><code>data/auth/users.json</code>（权限 0600）</td><td>直到您删除或卸载清除</td><td>无自动删除</td></tr><tr><td>会话</td><td><code>data/auth/sessions.json</code></td><td>24 小时</td><td>过期即失效，重新登录时清理</td></tr><tr><td>设置</td><td><code>data/settings.json</code></td><td>直到您修改或清除</td><td>无自动删除</td></tr><tr><td>诊断历史</td><td><code>data/diag-history/*.json</code></td><td>最近 50 份报告（可配置 <code>retention.diag_history</code>）</td><td>滚动删除最旧记录</td></tr><tr><td>链路质量趋势</td><td><code>data/trends/*.json</code></td><td>30 天（<code>monitor.retain_days</code>）</td><td>超过保留期的分片文件被删除</td></tr><tr><td>告警历史</td><td><code>data/alerts/*.json</code></td><td>90 天（<code>retention.alert_days</code>）</td><td>超期清理</td></tr><tr><td>配置快照</td><td><code>data/snapshots/&lt;id&gt;/</code></td><td>最近 20 份（<code>snapshot.keep</code>）</td><td>超出后删除最旧快照</td></tr><tr><td>修复备份</td><td><code>data/backups/&lt;action&gt;-&lt;时间戳&gt;/</code></td><td>直到您删除（可手动清理）</td><td>无自动删除</td></tr><tr><td>应用日志</td><td><code>logs/app.log</code></td><td>10 MB × 5 份轮转；元数据保留 30 天（<code>retention.log_days</code>）</td><td>按大小轮转覆盖</td></tr><tr><td>操作与修复审计</td><td><code>logs/operation-audit.jsonl</code>、<code>logs/helper-audit.log</code></td><td>10 MB × 5 份轮转；保留 90 天（<code>retention.operation_audit_days</code>）</td><td>轮转覆盖</td></tr><tr><td>运行时文件</td><td><code>/run/netcheck/token</code>、<code>helper.sock</code>、<code>bpf-traffic.sock</code></td><td>进程生命周期（重启即重建）</td><td>重启/卸载时删除</td></tr></tbody></table>
+<p>保存期限均在应用内可配置（设置页或 <code>data/settings.json</code> 的 <code>retention.*</code>）， 不会超出上述默认值无限期保存。</p>
+<h3 id="4-安全措施">4. 安全措施</h3>
+<ul><li><strong>最小权限</strong>：主服务 <code>netcheck.service</code> 以专用非 root 账户 <code>netcheck</code> 运行； 仅修复动作使用受控特权通道，且该通道以能力边界（capability bounding set） 收窄，详见 <code>privileged-channel.md</code>。</li><li><strong>凭据保护</strong>：口令使用 PBKDF2-HMAC-SHA256（200,000 次迭代）+ 每账户随机盐， 只存储散列；恢复码一次性使用并立即轮换；登录失败 5 次锁定 5 分钟，登录限速 10 次/分钟；会话令牌 24 小时后失效。</li><li><strong>本地通信</strong>：后端仅监听 Unix 域套接字 <code>/var/api/netcheck.sock</code>（平台代理）， 不开放 TCP 端口；特权通道套接字 <code>0600</code>、目录 <code>0700</code>，并校验 <code>SO_PEERCRED</code> 对端 UID + 启动令牌。</li><li><strong>文件权限</strong>：数据与日志目录归 <code>netcheck</code> 所有，主服务 <code>UMask=0027</code>， 特权服务 <code>UMask=0077</code>；账户文件 <code>0600</code>，凭据目录 <code>0700</code>。</li><li><strong>审计脱敏</strong>：审计写入前按键名脱敏（<code>password</code>、<code>token</code>、<code>secret</code>、 <code>session</code> 等一律替换为 <code>[REDACTED]</code>），日志抽样验证不含敏感信息。</li><li><strong>修复可回滚</strong>：写入前按 SHA-256 备份，失败自动回滚；所有动作记录审计。</li><li><strong>传输安全</strong>：仅使用 HTTPS/ICMP 等标准协议与外部端点通信；不使用明文口令 传输，不在 URL 中携带凭据。</li></ul>
+<h3 id="5-第三方共享与数据出境">5. 第三方共享与数据出境</h3>
+<ul><li>应用<strong>不向开发者回传任何数据</strong>，不包含遥测、崩溃上报、广告或第三方分析 SDK。</li><li>仅当您<strong>主动</strong>运行带宽测速、外部诊断或报警测试时，应用才会与 <code>third-party-services.md</code> 中列明的第三方端点通信；这些通信只包含建立连接与 测量所必需的报文（来源 IP、User-Agent <code>NetCheck/1.0</code> 等），不含您的账户、 主机名、文件或历史记录。</li><li>外部测速端点通常位于您选择/自动选择的测速服务器所在国家或地区，属于跨境 传输；<strong>如您不希望发生任何跨境通信，可在设置中把 WAN 测速模式改为局域网 iperf3 或自建 HTTP 端点，或不执行测速与外部诊断</strong>（详见第 4 节）。</li><li>报警通道（邮件 SMTP / Webhook）仅在您填写并启用后生效，去向由您指定。</li></ul>
+<h3 id="6-您的权利与行使方式">6. 您的权利与行使方式</h3>
+<p>您对自己的设备与数据拥有完全控制权：</p>
+<ul><li><strong>查阅</strong>：应用内「历史」「快照」「设置」「关于」页面，或直接读取上表路径文件。</li><li><strong>更正</strong>：「设置」页修改参数与保留期限；「账户」修改用户名/口令。</li><li><strong>导出</strong>：历史记录页面可下载 JSON 日志；网络配置快照支持差异查看。</li><li><strong>删除</strong>：历史记录单条删除/全部清空、删除快照、删除备份目录、卸载时清除。</li><li><strong>撤回同意</strong>：关闭监控、关闭报警通道、停止使用特权通道（<code>repair.mode=guide</code>）。</li></ul>
+<p>完整命令与界面路径见 <code>data-rights.md</code>。由于数据保存在您自己的设备上，<strong>无需 向开发者提交申请</strong>即可完成查阅、更正与删除；如需协助可通过 GitHub Issues（https://github.com/Moechz/netcheck/issues） 联系，我们将在 15 个工作日内答复。</p>
+<h3 id="7-儿童">7. 儿童</h3>
+<p>本应用是面向 NAS 管理员的网络运维工具，不面向儿童，也不会有意收集儿童数据。</p>
+<h3 id="8-政策变更">8. 政策变更</h3>
+<p>政策随版本更新，最新版本始终随包分发； 重大变更会在应用内提示，并更新本文件顶部的版本号与生效日期。</p>
+<hr>
+</section><section id="block-en" hidden><h2 id="二-english-version">二、English version</h2>
+<h3 id="1-summary">1. Summary</h3>
+<p>NetCheck is a <strong>local network diagnosis and repair tool that runs on your own TOS 7 device</strong>. It has no cloud account, no advertising or analytics SDK, and no crash reporting: <strong>no data is ever sent back to the developer or to any third party</strong>. Accounts, diagnosis results, history and logs stay on your device and are fully controlled by you (the device administrator).</p>
+<h3 id="2-data-the-application-processes">2. Data the application processes</h3>
+<ul><li><strong>Local account credentials</strong> — username, PBKDF2-HMAC-SHA256 (200,000 iterations) password hash with a random per-account salt, and a one-time recovery-code hash that you set during first-run initialization.</li><li><strong>Session data</strong> — random session tokens with issue/expiry timestamps.</li><li><strong>Network configuration and state</strong> — interface names/state/speed, IP addresses, gateway, DNS, MTU, routes, bond/OVS topology, TOS service status (collected read-only from the kernel and local TOS APIs).</li><li><strong>Diagnosis results</strong> — status, score, findings and recommendations for 35 checks. <strong>Bandwidth results</strong> — throughput, latency, jitter, method and target endpoint, produced only when you start a measurement.</li><li><strong>Link-quality trends</strong> — periodically sampled loss, RTT and interface byte counters while monitoring is enabled.</li><li><strong>Configuration snapshots and repair backups/audit</strong> — copies of <code>/etc/systemd/network/*.network</code> plus repair action, parameters, result, actor, target and rollback records.</li></ul>
+<p><strong>Not processed:</strong> file contents, shared-folder content, media libraries or personal documents are never read, indexed or uploaded; packet payloads are never stored.</p>
+<h3 id="3-storage-location-and-retention">3. Storage location and retention</h3>
+<p>Everything is stored under the application directory <code>/usr/local/netcheck/</code> (possibly mapped to a chosen volume by App Center).</p>
+<table><thead><tr><th>Data</th><th>Path</th><th>Default retention</th></tr></thead><tbody><tr><td>Account &amp; recovery-code hashes</td><td><code>data/auth/users.json</code> (0600)</td><td>until deleted / purged</td></tr><tr><td>Sessions</td><td><code>data/auth/sessions.json</code></td><td>24 hours</td></tr><tr><td>Settings</td><td><code>data/settings.json</code></td><td>until changed / purged</td></tr><tr><td>Diagnosis history</td><td><code>data/diag-history/*.json</code></td><td>last 50 reports (<code>retention.diag_history</code>)</td></tr><tr><td>Link-quality trends</td><td><code>data/trends/*.json</code></td><td>30 days (<code>monitor.retain_days</code>)</td></tr><tr><td>Alert history</td><td><code>data/alerts/*.json</code></td><td>90 days (<code>retention.alert_days</code>)</td></tr><tr><td>Snapshots</td><td><code>data/snapshots/&lt;id&gt;/</code></td><td>last 20 (<code>snapshot.keep</code>)</td></tr><tr><td>Repair backups</td><td><code>data/backups/&lt;action&gt;-&lt;ts&gt;/</code></td><td>until deleted manually</td></tr><tr><td>Application log</td><td><code>logs/app.log</code></td><td>10 MB × 5 rotation; 30 days (<code>retention.log_days</code>)</td></tr><tr><td>Operation / helper audit</td><td><code>logs/operation-audit.jsonl</code>, <code>logs/helper-audit.log</code></td><td>10 MB × 5 rotation; 90 days (<code>retention.operation_audit_days</code>)</td></tr><tr><td>Runtime files</td><td><code>/run/netcheck/token</code>, <code>helper.sock</code>, <code>bpf-traffic.sock</code></td><td>process lifetime</td></tr></tbody></table>
+<p>All retention values are configurable in the Settings page or in <code>data/settings.json</code> and never exceed the defaults above unintentionally.</p>
+<h3 id="4-security-measures">4. Security measures</h3>
+<ul><li><strong>Least privilege</strong> — the main backend runs as the dedicated non-root user <code>netcheck</code>; privileged work goes through one audited channel that is narrowed by a capability bounding set (see <code>privileged-channel.md</code>).</li><li><strong>Credential protection</strong> — PBKDF2-HMAC-SHA256 (200,000 iterations) with per-account salt; hashes only, never plaintext; single-use recovery code; 5-failure lockout for 5 minutes; 10 logins/minute rate limit; 24-hour sessions.</li><li><strong>Local-only transport</strong> — the backend listens on a Unix domain socket (<code>/var/api/netcheck.sock</code>, platform-proxied); no TCP port is opened. The privileged socket is <code>0600</code> in a <code>0700</code> directory and is protected by <code>SO_PEERCRED</code> peer-UID checks plus a startup token.</li><li><strong>File permissions</strong> — data/log directories are owned by <code>netcheck</code>; <code>UMask=0027</code> (main) and <code>UMask=0077</code> (helper); account files <code>0600</code>.</li><li><strong>Audit redaction</strong> — audit entries redact <code>password</code>, <code>token</code>, <code>secret</code>, <code>session</code> and similar keys to <code>[REDACTED]</code> before writing.</li><li><strong>Reversible repairs</strong> — SHA-256-verified backups before every write, with automatic rollback and full audit.</li></ul>
+<h3 id="5-third-party-sharing-and-cross-border-transfer">5. Third-party sharing and cross-border transfer</h3>
+<p>The application sends nothing to the developer and embeds no telemetry, analytics or advertising SDK. External communication happens <strong>only when you actively start it</strong> (WAN speed test, external diagnosis, alert test) and only with the endpoints listed in <code>third-party-services.md</code>; the exchanged data is limited to what is technically required (source IP, <code>User-Agent NetCheck/1.0</code>). Speed-test servers are located in the country/region you select (or the auto-selected one), which may be outside your own country; <strong>to avoid any cross-border traffic, switch the WAN test mode to LAN iperf3 or your own HTTP endpoint, or simply do not run a speed test.</strong> Alert channels (SMTP/webhook) only become active after you configure them.</p>
+<h3 id="6-your-rights">6. Your rights</h3>
+<p>Access, correction, export and deletion are performed directly on your own device — in the application UI, or by reading/removing the files listed above; no request to the developer is required. See <code>data-rights.md</code> for exact paths and commands. For assistance, open an issue at https://github.com/Moechz/netcheck/issues (reply within 15 business days).</p>
+<h3 id="7-children">7. Children</h3>
+<p>NetCheck is a network operations tool for NAS administrators and is not directed at children; no children's data is knowingly collected.</p>
+<h3 id="8-changes">8. Changes</h3>
+<p>This policy is versioned with the application, shipped in the package, published at github.com/Moechz/netcheck, and the version/date at the top is updated on every material change.</p></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main><script>
+(function(){
+  var zh=document.getElementById('lang-zh'),en=document.getElementById('lang-en');
+  if(!zh||!en)return;
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    var showZh=lang!=='en';
+    document.getElementById('block-zh').hidden=!showZh;
+    document.getElementById('block-en').hidden=showZh;
+    zh.setAttribute('aria-pressed',String(showZh));
+    en.setAttribute('aria-pressed',String(!showZh));
+  }
+  zh.addEventListener('click',function(){apply('zh');});
+  en.addEventListener('click',function(){apply('en');});
+  var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+  apply(q==='en'?'en':'zh');
+})();
+</script></body></html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特权通道授权与最小权限 / Privileged Channel · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><div class="langbar"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div><section id="block-zh"><div class="toc"><b>目录 / Contents</b><a href="#一-中文版">一、中文版</a><a href="#二-english-version">二、English version</a><a href="#9-执行兼容降级-exec-compat-1-2-58">9. 执行兼容降级（exec-compat，1.2.58）</a></div><h1 id="特权通道-root-辅助服务-授权依据与最小权限实现说明">特权通道（root 辅助服务）授权依据与最小权限实现说明</h1>
+<h1 id="privileged-channel-root-helper-authorisation-basis-and-least-privilege-implementation">Privileged Channel (root helper): Authorisation Basis and Least-Privilege Implementation</h1>
+<ul><li>适用版本：NetCheck 1.2.54（应用 ID <code>netcheck</code>）</li><li>本文回答审核项 <strong>V1 / S1</strong>：<code>netcheck-helper.service</code> 以 uid 0（<code>User=0</code>，数字形式以规避 TOS 对「root」用户名的重映射；能力边界不变）运行的 授权依据与最小化权限实现。</li><li>同时披露 1.2.52 起新增的 <code>netcheck-bpf.service</code>（同样以 root 运行），避免重审 时再次出现「未见授权文件」的情况。</li></ul>
+<hr>
+<h2 id="一-中文版">一、中文版</h2>
+<h3 id="1-组件与运行身份-包内定义-usr-local-netcheck-init-d">1. 组件与运行身份（包内定义：<code>/usr/local/netcheck/init.d/</code>）</h3>
+<table><thead><tr><th>单元</th><th>运行身份</th><th>作用</th><th>是否必需</th></tr></thead><tbody><tr><td><code>netcheck.service</code></td><td><code>User=netcheck</code>（专用非 root 系统账户，<code>--no-create-home --shell /usr/sbin/nologin</code>）</td><td>后端、WebUI 数据接口、诊断、监控</td><td>必需</td></tr><tr><td><code>netcheck-helper.service</code></td><td><code>User=0</code> + <strong>能力边界收窄</strong></td><td>仅执行白名单内的网络修复动作</td><td><strong>可选</strong>（缺失时应用自动降级为「指引模式」）</td></tr><tr><td><code>netcheck-bpf.service</code></td><td><code>User=0</code> + <strong>能力边界收窄</strong>（1.2.52 起）</td><td>只读实时速率计数（AF_PACKET + eBPF map）</td><td><strong>可选</strong>（缺失/失败时自动回退 <code>/proc/net/dev</code>）</td></tr></tbody></table>
+<blockquote>包内<strong>不含</strong>任何 setuid/setgid 文件或 <code>setcap</code> 二进制： <code>find /usr/local/netcheck -perm -4000</code> 与 <code>getcap -r /usr/local/netcheck</code> 均为空； 两个 root 进程只能由 systemd 按包内单元文件拉起。</blockquote>
+<h3 id="2-为什么必须存在特权组件">2. 为什么必须存在特权组件</h3>
+<ol><li>TOS 7 未提供网络写入 API（不存在 <code>tos network set</code> 等命令），第三方应用无法 通过平台接口修改网络配置——这是需求文档中登记的平台能力缺口（需求 R1）。</li><li>网络配置文件的属主是 root：真机实测 <code>/etc/systemd/network/</code> 为 <code>drwxr-xr-x</code>、<code>10-eth*.network</code> 为 <code>-rw-r--r--</code>，属主 uid 0。</li><li>修复动作（改 IP/DNS/网关/MTU、重启 networkd/ntp/netplug、回滚快照）必须由 特权进程执行，否则应用只能停留在「只读诊断 + 输出指引」。</li></ol>
+<p>若不接受 root 辅助服务，替代方案是：<strong>只提供只读诊断与指引模式</strong> （<code>repair.mode=guide</code>），主服务完全无需特权——见第 6 节的关闭方法，应用在该模式下 功能完整（诊断、测速、监控、工具、快照全部可用，只是不自动落盘修复）。</p>
+<h3 id="3-授权依据与本次申请-对应审核项-v1">3. 授权依据与本次申请（对应审核项 V1）</h3>
+<ul><li><strong>2026-08-25</strong>：开发者与平台沟通后，平台以<strong>「系统级应用契约」（system-level app contract）</strong>机制同意本应用随 App Center 包分发 root 辅助服务；同机制先例为平台 官方应用 <code>terai</code>（其 <code>contract/expected.json</code> 声明二进制哈希，平台在安装/启动前 校验），真机验证记录见《TOS7 真机环境验证报告》§5.4。</li><li><strong>2026-08-25</strong>：项目安全评审出具《特权通道安全审查》，对 R1–R7 风险逐条评估， 接受前提是白名单/参数校验/审计/回滚全部落地（本版本的实现即为落地结果）。</li><li><strong>本次随包提供的授权材料</strong>：</li></ul>
+<ol><li>本文件（授权依据、能力清单、白名单、审计、关闭与核验方法）；</li><li><code>contract/expected.json</code>（平台契约校验清单：<code>netcheck</code>、<code>netcheck-helper</code>、 <code>netcheck-bpf</code>、<code>webui.bz2</code> 的 SHA-256，安装/启动前核验）；</li><li><code>MANIFEST.json</code> / <code>SBOM.json</code>（包内文件与组件、维护脚本哈希）；</li><li>完整内部安全评审记录《特权通道安全审查》可依申请以邮件原文/PDF 提供。</li></ol>
+<ul><li><strong>本次申请（请审核团队确认）</strong>：</li></ul>
+<ol><li>请确认上述「系统级应用契约」是否即本次审核所需的 R1 特批；</li><li>若需要独立授权文件，请告知所需形式（授权函模板 / 契约编号登记），我们在 收到模板后 <strong>3 个工作日内</strong>补充提交；</li><li>若平台要求「零特权」形态，我们可在 <strong>5 个工作日内</strong>提交不含 <code>netcheck-helper.service</code> / <code>netcheck-bpf.service</code> 的无特权构建版本 （<code>repair.mode=guide</code> 默认，仅保留只读诊断、测速、监控与指引修复）， 请告知是否需要。</li></ol>
+<h3 id="4-最小权限实现-本版本实际生效的配置">4. 最小权限实现（本版本实际生效的配置）</h3>
+<p><code>init.d/netcheck-helper.service</code>：</p>
+<pre><code>User=0
+Group=0
+CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_NET_ADMIN
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+UMask=0077</code></pre>
+<blockquote><code>User=0</code>（数字 uid）等价于 root：部分 TOS 安装会把「root」这个<strong>名字</strong>重映射到无能力的诱饵账户（uid 9999，真实 root 是管理员用户本身），按名字解析会丢失全部能力；数字 uid 不受影响，能力边界不变。运行时目录 <code>/run/netcheck</code> 归一化为 <code>0:netcheck 0770</code>（setgid 位不可用：<code>RestrictSUIDSGID=true</code> 会拒绝任何设置 suid/sgid 位的 chmod）。</blockquote>
+<table><thead><tr><th>保留的能力</th><th>用途（唯一必要性）</th></tr></thead><tbody><tr><td><code>CAP_CHOWN</code></td><td>启动时把 <code>/run/netcheck/token</code>、<code>helper.sock</code> 的属主改为 <code>netcheck</code>、目录属组改为 <code>netcheck</code> 组（目录属主保持 uid 0，供 bpf 收集器创建套接字），使非 root 主服务能读取令牌并连接套接字</td></tr><tr><td><code>CAP_DAC_OVERRIDE</code></td><td>兼容「<code>.network</code> 文件属主/权限变体」；真机默认属主为 uid 0 且含属主写位，本能力可按安装自检裁剪（审核若要求，可去掉并在自检中强制校验属主）</td></tr><tr><td><code>CAP_NET_ADMIN</code></td><td><code>ip link set</code>（MTU/up/down）、<code>sysctl -w net.ipv6.conf.*</code>、<code>networkctl reload/reconfigure</code>、<code>resolvectl dns/revert</code></td></tr></tbody></table>
+<p><strong>显式剔除的高危能力</strong>（早期草案曾包含，已在安全审查后移除并保持移除）：</p>
+<p><code>CAP_SYS_ADMIN</code>、<code>CAP_SYS_MODULE</code>、<code>CAP_SYS_PTRACE</code>、<code>CAP_SYS_RAWIO</code>、 <code>CAP_DAC_READ_SEARCH</code>、<code>CAP_SETUID</code>、<code>CAP_SETGID</code>、<code>CAP_KILL</code>、<code>CAP_SYS_TIME</code>、 <code>CAP_NET_RAW</code>（helper 不需要抓包）、<code>CAP_SYS_RESOURCE</code>。</p>
+<p><code>init.d/netcheck-bpf.service</code>（1.2.52 新增，只读计数）：</p>
+<pre><code>User=0
+Group=netcheck
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_BPF CAP_PERFMON
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_PACKET
+LimitMEMLOCK=infinity</code></pre>
+<blockquote><code>User=0</code>（数字 uid）：TOS 会把用户名 <code>root</code> 重映射到无能力的诱饵 uid 9999，按名字解析会使能力失效，故用户部分用数字。<code>Group=netcheck</code>（名字）：TOS 不重映射组名，且系统给 netcheck 组分配的 gid 因机器而异（实测 996 与 999 两种），硬编码 gid 会在部分机器上 status=216/GROUP 启动失败（1.2.57 真机修复）；收集器创建的 <code>bpf-traffic.sock</code> 继承该组并以 0660 模式供主服务连接（不能用目录 setgid 位，原因同上）。</blockquote>
+<table><thead><tr><th>保留的能力</th><th>用途</th></tr></thead><tbody><tr><td><code>CAP_NET_RAW</code></td><td>创建 <code>AF_PACKET</code> 套接字以统计每网卡字节/包数</td></tr><tr><td><code>CAP_BPF</code> + <code>CAP_PERFMON</code></td><td>加载 eBPF socket filter、创建内核 map（kernel ≥5.8 的细分能力，替代过去需要 <code>CAP_SYS_ADMIN</code> 的粗粒度授权）</td></tr><tr><td><code>CAP_NET_ADMIN</code></td><td><code>SO_ATTACH_BPF</code> 附加过滤器</td></tr></tbody></table>
+<p>该服务<strong>不写任何系统配置</strong>、不保存数据包载荷（BPF 程序 <code>return 0</code> 丢弃拷贝）， <code>LimitMEMLOCK=infinity</code> 使其无需 <code>CAP_SYS_RESOURCE</code>。下一版本计划进一步降为 <strong>专用非 root 用户 + AmbientCapabilities</strong>（需在真机验证套接字目录权限与能力保留 后再启用）。</p>
+<p><strong>为什么没有启用 ProtectSystem / PrivateTmp / ProtectHome</strong>：TOS 7.0.1140 （kernel 6.12.63）上这些依赖 mount namespace 的沙箱指令会导致服务以 <code>226/NAMESPACE</code> 启动失败（2026-08-26 真机实测）。因此本版本用「能力边界 + 文件权限 + 白名单 + 审计」替代，并在 <code>init.d/*.service</code> 中注释说明。若平台放宽该 限制，我们将在下一版本启用 <code>ProtectSystem=strict</code> + <code>ReadWritePaths=/etc/systemd/network /run/netcheck</code> + <code>PrivateTmp=true</code>。</p>
+<h3 id="5-白名单与纵深防御-与最小权限配套">5. 白名单与纵深防御（与最小权限配套）</h3>
+<p>白名单动作（<code>lib/netcheck/fix/actions.py</code>，<strong>9 项</strong>，无 shell、无通配、无常量拼接）：</p>
+<table><thead><tr><th>动作</th><th>关键参数与约束</th></tr></thead><tbody><tr><td><code>link-toggle</code></td><td>网卡名 <code>^[A-Za-z0-9_.-]{1,15}$</code> 且必须来自采集器白名单；排除 <code>lo/docker0/tnas0/all/default</code>；方向仅 `up</td><td>down`</td></tr><tr><td><code>net-reload</code></td><td>不接受任何参数</td></tr><tr><td><code>net-apply</code></td><td>模式 `dhcp</td><td>static</td><td>reset`；静态地址必须合法 IPv4、前缀 1–30、网关必须同子网；MTU 1280–9000</td></tr><tr><td><code>dns-set</code></td><td>DNS 1–3 条，必须是合法 IP 且非 0.0.0.0</td></tr><tr><td><code>gateway-set</code></td><td>网关必须落在同子网；文件级改写并保留无关配置</td></tr><tr><td><code>sysctl-ipv6</code></td><td>仅 <code>net.ipv6.conf.&lt;iface&gt;.disable_ipv6=0</code></td></tr><tr><td><code>mtu-set</code></td><td>MTU 1280–9000</td></tr><tr><td><code>svc-restart</code></td><td>单元为<strong>精确枚举</strong> <code>systemd-networkd.service</code> / <code>ntp.service</code> / <code>netplug.service</code>（拒绝裸名、<code>.timer</code>、<code>ssh</code> 等）</td></tr><tr><td><code>snap-restore</code></td><td>快照 ID <code>^[A-Fa-f0-9-]{1,64}$</code>，文件必须通过内置语法校验</td></tr></tbody></table>
+<p>防御层：</p>
+<ol><li><strong>进程身份</strong>：主服务 <code>netcheck</code> 非 root；helper 仅监听 <code>/run/netcheck/helper.sock</code> （目录 <code>0700</code>、套接字 <code>0600</code>、属主 <code>netcheck</code>）。</li><li><strong>对端认证</strong>：<code>SO_PEERCRED</code> 校验对端 UID 必须等于 <code>netcheck</code>，并校验启动令牌 （<code>secrets.compare_digest</code>，每次启动重新生成，<code>O_EXCL</code> 写入）。</li><li><strong>双侧参数校验</strong>：主服务发送前校验一次，helper 收到后<strong>再校验一次</strong>。</li><li><strong>无 shell 执行</strong>：<code>execve</code> argv 数组直调固定绝对路径二进制（<code>/usr/sbin/ip</code>、 <code>/usr/bin/networkctl</code>、<code>/usr/bin/systemctl</code>、<code>/usr/bin/resolvectl</code>、 <code>/usr/sbin/sysctl</code>），环境变量固定为 <code>PATH=/usr/sbin:/usr/bin:/bin</code>。</li><li><strong>写入安全</strong>：内置 <code>.network</code> 语法校验 → SHA-256 备份 → 临时文件 <code>O_EXCL</code> 原子替换 → <code>reload + reconfigure</code>；失败自动回滚。</li><li><strong>审计</strong>：JSONL 审计（动作、参数、结果、耗时、stdout 哈希、备份路径、回滚）， 主服务侧另有操作审计（凭据键名统一脱敏）。</li><li><strong>限流与串行</strong>：同一动作 30 秒内仅允许一次，执行串行加锁。</li><li><strong>平台契约校验</strong>：<code>contract/expected.json</code> 声明二进制 SHA-256，被篡改的 helper/backend 无法通过平台校验启动（terai 同机制）。</li></ol>
+<h3 id="6-关闭特权通道-审核与运维均可执行">6. 关闭特权通道（审核与运维均可执行）</h3>
+<pre><code># 1) 应用内切换为指引模式（也可通过 API：POST /api/settings {&quot;repair&quot;:{&quot;mode&quot;:&quot;guide&quot;}}）
+sudo sed -i &#x27;s/&quot;mode&quot;: &quot;helper&quot;/&quot;mode&quot;: &quot;guide&quot;/&#x27; /usr/local/netcheck/data/settings.json
+
+# 2) 停用并屏蔽两个特权单元（主服务与全部只读功能继续正常工作）
+sudo systemctl disable --now netcheck-helper.service netcheck-bpf.service
+sudo systemctl mask netcheck-helper.service netcheck-bpf.service</code></pre>
+<p>关闭后：诊断、评分、历史、测速（回退 <code>/proc/net/dev</code>）、监控、工具、快照创建与 差异对比全部可用；修复动作改为输出「指引」文本，不写系统配置。</p>
+<h3 id="7-审核可执行的自检命令">7. 审核可执行的自检命令</h3>
+<pre><code># 运行身份与能力边界
+systemctl show -p User -p Group -p CapabilityBoundingSet -p NoNewPrivileges \
+  -p RestrictAddressFamilies netcheck-helper.service
+systemctl show -p User -p CapabilityBoundingSet netcheck-bpf.service
+
+# 包内没有 setuid/setcap 二进制
+find /usr/local/netcheck -perm -4000 -o -perm -2000
+getcap -r /usr/local/netcheck 2&gt;/dev/null
+
+# 运行时权限
+ls -ld /run/netcheck &amp;&amp; ls -l /run/netcheck
+
+# 契约与材料清单
+cat /usr/local/netcheck/contract/expected.json
+cat /usr/local/netcheck/compliance/MANIFEST.json
+
+# 白名单与校验（源码随包为 .pyc；明文源码可依申请提供）</code></pre>
+<hr>
+</section><section id="block-en" hidden><h2 id="二-english-version">二、English version</h2>
+<h3 id="components-and-identities">Components and identities</h3>
+<p><code>netcheck.service</code> runs as the dedicated non-root account <code>netcheck</code> (<code>--no-create-home --shell /usr/sbin/nologin</code>). <code>netcheck-helper.service</code> runs as root with a <strong>capability bounding set of <code>CAP_CHOWN CAP_DAC_OVERRIDE CAP_NET_ADMIN</code></strong>, <code>NoNewPrivileges=true</code>, <code>RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK</code>, <code>UMask=0077</code>. <code>netcheck-bpf.service</code> (new in 1.2.52) runs as root with <code>CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_BPF CAP_PERFMON</code>, <code>LimitMEMLOCK=infinity</code> and never writes system configuration. The package contains no setuid/setgid file and no <code>setcap</code> binary — both root processes can only be started by systemd from the packaged units.</p>
+<p><strong>Platform exec-compat exception (1.2.58).</strong> A small number of TOS builds (observed 2026-09-15 on one production NAS, systemd 249) reject <code>execve</code> under <code>NoNewPrivileges</code> with systemd <code>203/EXEC</code> — even for <code>/bin/true</code> — and on that same build <code>RestrictSUIDSGID</code>/<code>RestrictAddressFamilies</code> additionally break exec for the non-root service user. The package therefore probes this once at install time (<code>systemd-run</code> transient units, 15 s timeout, <code>--collect</code> cleanup, result written to the dpkg log). Only when the probe fails does postinst install <code>80-netcheck-exec-compat.conf</code> drop-ins that set <code>NoNewPrivileges=false</code> (plus <code>RestrictSUIDSGID=false</code> and a cleared <code>RestrictAddressFamilies</code> for the non-root backend only). Capability bounding sets, service users, socket ownership and every other isolation directive are unchanged by this path, and the drop-ins are removed automatically once the platform probe passes again. Unaffected platforms keep the fully hardened templates (verified on two production NAS units); the relaxation path was verified on the affected unit via equivalent field drop-ins.</p>
+<h3 id="why-privilege-is-required">Why privilege is required</h3>
+<p>TOS 7 exposes no network-write API, and <code>/etc/systemd/network/*.network</code> is root-owned (measured on device: owner uid 0 with the owner-write bit). Without a privileged channel the application can only diagnose and print guidance. Removing it is supported: switch <code>repair.mode</code> to <code>guide</code> and <code>systemctl disable --now</code> both units (section 6) — diagnosis, scoring, history, bandwidth, monitoring, tools and snapshots keep working.</p>
+<h3 id="authorisation-basis-review-item-v1">Authorisation basis (review item V1)</h3>
+<p>On 2026-08-25 the platform agreed, under the <strong>system-level app contract</strong> mechanism (the same mechanism used by the official <code>terai</code> app, whose <code>contract/expected.json</code> hashes are verified by the platform before install/startup — device verification report §5.4), that this root helper ships with the App Center package; the project security review documented the corresponding R1–R7 risk acceptance. Because that agreement was never shipped as a standalone document, this dossier now ships the basis, the capability inventory, the whitelist, the audit trail and the off-switch. <strong>We request confirmation</strong> that the system-level app contract is the required R1 approval, or the template/registration form you need (we will provide it within three working days). If a zero-privilege form is required instead, we can deliver, within five working days, a build that omits both privileged units and defaults to <code>repair.mode=guide</code>.</p>
+<h3 id="least-privilege">Least privilege</h3>
+<p>Only three capabilities are retained for the helper, each with a single necessity: <code>CAP_CHOWN</code> (hand the runtime token/socket to the <code>netcheck</code> user), <code>CAP_DAC_OVERRIDE</code> (compatibility with future ownership variants — removable once the installer self-check asserts owner uid 0 plus the owner-write bit) and <code>CAP_NET_ADMIN</code> (<code>ip link set</code>, IPv6 sysctl, <code>networkctl</code>, <code>resolvectl</code>). <code>CAP_SYS_ADMIN</code>, <code>CAP_SYS_MODULE</code>, <code>CAP_SYS_PTRACE</code>, <code>CAP_SYS_RAWIO</code>, <code>CAP_DAC_READ_SEARCH</code>, <code>CAP_SETUID</code>, <code>CAP_SETGID</code>, <code>CAP_KILL</code>, <code>CAP_SYS_TIME</code>, <code>CAP_NET_RAW</code> and <code>CAP_SYS_RESOURCE</code> are explicitly removed. Mount-namespace sandboxing (<code>ProtectSystem</code>, <code>PrivateTmp</code>, <code>ProtectHome</code>) is not enabled because it fails with <code>226/NAMESPACE</code> on TOS kernel 6.12.63; the units document this and the plan to enable it once the platform allows.</p>
+<h3 id="whitelist-and-defence-in-depth">Whitelist and defence in depth</h3>
+<p>Nine whitelisted actions with two-sided parameter validation (interface regex plus collector whitelist, exact unit enum, DNS 1–3 valid IPs, gateway in the same subnet, MTU 1280–9000, snapshot ID regex), no shell, fixed absolute binaries, built-in <code>.network</code> syntax check, SHA-256 backup with automatic rollback, JSONL audit with redaction, 30-second per-action rate limit, serial execution lock, <code>SO_PEERCRED</code> peer-UID plus startup-token authentication, and platform contract hash verification. Reviewers can self-verify with the commands in section 7.</p>
+<hr>
+<h2 id="9-执行兼容降级-exec-compat-1-2-58">9. 执行兼容降级（exec-compat，1.2.58）</h2>
+<p><strong>背景</strong>：2026-09-15 在一台生产 NAS（TOS，systemd 249）上实测：该平台的 systemd 在 <code>NoNewPrivileges=true</code> 下拒绝任何 <code>execve</code>（<code>203/EXEC</code>，连 <code>/bin/true</code> 都失败）；同一平台上 <code>RestrictSUIDSGID=true</code> 或 <code>RestrictAddressFamilies=…</code> 对非 root 服务用户同样导致 exec 失败。三个 服务因此全部无法启动，页面表现为 TOS 代理报 <code>invalid api socket</code>。</p>
+<p><strong>机制</strong>：安装脚本（postinst）在安装时做一次性最小探测——用 <code>systemd-run --wait --collect</code> 分别验证 (a) <code>NoNewPrivileges=true</code> 下能否 exec；(b) 非特权用户叠加全部沙箱过滤后能否 exec。探测有 15 秒超时、 <code>--collect</code> 清理临时 unit、结果写入 dpkg 日志。<strong>仅当探测失败</strong>才安装 <code>80-netcheck-exec-compat.conf</code> 降级 drop-in：主后端 <code>NoNewPrivileges=false</code> + <code>RestrictSUIDSGID=false</code> + 清空 <code>RestrictAddressFamilies</code>；两个特权服务仅 <code>NoNewPrivileges=false</code>。</p>
+<p><strong>不妥协项</strong>：该路径不扩大 CapabilityBoundingSet、不改变服务用户 （主后端仍为非特权 <code>netcheck</code>，特权服务仍为数字 uid 0）、不改变 socket 属主与 0600/0660 权限、不新增 setuid/setgid 文件。探测通过的平台继续 使用完整加固模板（两台生产 NAS 验证）；降级文件在后续安装探测通过时 自动移除。可用环境变量 <code>NETCHECK_EXEC_COMPAT=force|off</code> 覆盖探测（测试 钩子）。</p>
+<p><strong>旧现场补丁迁移</strong>：升级时会识别现场修复产生的 <code>90-tos-compat.conf</code>（已知文件名），先备份到 <code>/var/backups/netcheck/legacy-dropins-&lt;时间戳&gt;/</code> 再移除，避免旧覆盖与新 模板叠层冲突；其他自定义 drop-in 一律不动并告警。卸载（purge）只删除 本包生成的 <code>80-netcheck-exec-compat.conf</code>。</p></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main><script>
+(function(){
+  var zh=document.getElementById('lang-zh'),en=document.getElementById('lang-en');
+  if(!zh||!en)return;
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    var showZh=lang!=='en';
+    document.getElementById('block-zh').hidden=!showZh;
+    document.getElementById('block-en').hidden=showZh;
+    zh.setAttribute('aria-pressed',String(showZh));
+    en.setAttribute('aria-pressed',String(!showZh));
+  }
+  zh.addEventListener('click',function(){apply('zh');});
+  en.addEventListener('click',function(){apply('en');});
+  var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+  apply(q==='en'?'en':'zh');
+})();
+</script></body></html>

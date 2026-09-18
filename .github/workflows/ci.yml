@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10', '3.11']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Python compile check
+        run: python3 -m compileall -q netcheck/lib
+
+      - name: WebUI JS syntax check
+        working-directory: netcheck
+        run: |
+          for js in webui/assets/*.js; do
+            node --check "$js"
+          done
+
+      - name: i18n key parity check
+        working-directory: netcheck
+        run: node webui/tools/check_i18n.js
+
+      - name: Unit tests - NIC Collector
+        working-directory: netcheck
+        run: python3 tests/test_nic_collector.py
+
+      - name: Unit tests - Diagnosis Engine
+        working-directory: netcheck
+        run: python3 tests/test_diag.py
+
+      - name: Unit tests - Fix Engine
+        working-directory: netcheck
+        run: python3 tests/test_fix_engine.py
+
+      - name: Unit tests - Bandwidth
+        working-directory: netcheck
+        run: python3 tests/test_bandwidth.py
+
+      - name: Unit tests - Auth Security
+        working-directory: netcheck
+        run: python3 tests/test_auth_security.py
+
+      - name: Unit tests - Monitor
+        working-directory: netcheck
+        run: python3 tests/test_monitor.py
+
+      - name: Unit tests - Snapshots
+        working-directory: netcheck
+        run: python3 tests/test_snapshot.py
+
+      - name: Unit tests - Tools
+        working-directory: netcheck
+        run: python3 tests/test_tools.py
+
+      - name: Unit tests - Packaging
+        working-directory: netcheck
+        run: python3 tests/test_packaging.py
+
+      - name: i18n resolution tests
+        working-directory: netcheck
+        run: node tests/test_i18n.js
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    strategy:
+      matrix:
+        platform: [x86_64, aarch64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build deb package
+        working-directory: netcheck
+        run: |
+          chmod +x build.sh bin/netcheck bin/netcheck-helper
+          ./build.sh ${{ matrix.platform }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: netcheck-${{ matrix.platform }}
+          path: |
+            netcheck/netcheck_${{ matrix.platform }}.deb
+            netcheck/netcheck_${{ matrix.platform }}.deb.sha256
+          retention-days: 30

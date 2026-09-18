@@ -1,0 +1,4 @@
+Settings for eth0:
+	Speed: 2500Mb/s
+	Duplex: Full
+	Link detected: yes

@@ -1,0 +1,10 @@
+Settings for eth0:
+	Supported ports: [ TP	 MII ]
+	Supported link modes:   10baseT/Half 10baseT/Full
+	                        100baseT/Half 100baseT/Full
+	                        1000baseT/Full
+	                        2500baseT/Full
+	Speed: 2500Mb/s
+	Duplex: Full
+	Auto-negotiation: on
+	Link detected: yes

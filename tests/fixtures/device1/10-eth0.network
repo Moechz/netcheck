@@ -1,0 +1,17 @@
+[Match]
+MACAddress=6c:bf:b5:04:b3:82
+Name=ovs_*
+
+[Network]
+DHCP=ipv6
+LinkLocalAddressing=ipv6
+Address=192.168.124.55/24
+DNS=192.168.124.1
+
+[Route]
+Destination=0.0.0.0/0
+Gateway=192.168.124.1
+Metric=1024
+
+[Link]
+MTUBytes=1500

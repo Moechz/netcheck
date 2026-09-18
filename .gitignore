@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.deb
+*.deb.sha256
+webui.bz2
+contract/expected.json
+.DS_Store
+
+# 发布产物：构建出的安装包随仓库分发
+!netcheck_*.deb
+!netcheck_*.deb.sha256
+release/*/README.public.md

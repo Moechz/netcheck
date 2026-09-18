@@ -1,6 +1,6 @@
 # NetCheck — Network Diagnostics & Repair for TOS 7
 
-![Release](https://img.shields.io/badge/release-1.2.59-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
+![Release](https://img.shields.io/badge/release-1.2.60-2E8B52) ![TOS](https://img.shields.io/badge/platform-TerraMaster%20TOS%207-1877f2) ![Languages](https://img.shields.io/badge/i18n-23%20languages-0d9488)
 
 **NetCheck** is a network health application for TerraMaster NAS running **TOS 7**. It diagnoses connectivity problems from the TOS web UI, explains what broke and where, and walks you through safe repairs — no SSH required.
 
@@ -36,14 +36,17 @@ Version your network configuration with notes, diff before/after, and restore in
 
 ## 🔍 Source & auditability
 
-The single compiled ELF shipped in the package, `bin/netcheck-bpf` (static Go,
-stripped), is built from the published source in
-[`bpfcollector/`](./bpfcollector/) — Go code plus the eBPF C program
-(`_bpf/traffic.bpf.c`) whose compiled object is embedded. Dependencies are
-pinned by the committed `go.sum`; run `go mod vendor` before building
-(see `bpfcollector/README.md`). A source snapshot pinned to each version is
-attached to every Release as `netcheck_<version>_bpf-src.tar.gz` with its
-SHA-256. Everything else in the package is data, scripts and the web UI.
+This repository **is** the application's source mirror: the Python backend
+([`lib/`](./lib), shipped as plain `.py` inside the package), the web UI
+([`webui/`](./webui)), the Go/eBPF traffic collector
+([`bpfcollector/`](./bpfcollector) — source of the single compiled ELF
+`bin/netcheck-bpf`, including the embedded BPF program `_bpf/traffic.bpf.c`),
+the maintainer scripts ([`DEBIAN/`](./DEBIAN)), systemd units
+([`init.d/`](./init.d)), and the build/test suites ([`tools/`](./tools),
+[`tests/`](./tests)). Go dependencies are pinned by `go.sum`; run
+`go mod vendor` before building (see `bpfcollector/README.md`). A full source
+snapshot pinned to each version is attached to every Release as
+`netcheck_<version>_src.tar.gz` with its SHA-256.
 
 ## 📦 Install
 
@@ -54,28 +57,28 @@ Download the package matching your NAS architecture from [Releases](https://gith
 **Which package do I need?** Run `dpkg --print-architecture` over SSH — its output (`amd64` or `arm64`) is exactly the file suffix you need. Alternatively, check the CPU in TOS Control Panel: Intel/AMD processors → `amd64`, ARM processors → `arm64`. The suffix always matches the package's internal Debian architecture, so `dpkg -i` will also refuse a mismatched one.
 
 ```bash
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.59/netcheck_1.2.59_amd64.deb
-curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.59/netcheck_1.2.59_amd64.deb.sha256
-shasum -a 256 -c netcheck_1.2.59_amd64.deb.sha256   # optional integrity check
-sudo dpkg -i netcheck_1.2.59_amd64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.60/netcheck_1.2.60_amd64.deb
+curl -LO https://github.com/Moechz/netcheck/releases/download/v1.2.60/netcheck_1.2.60_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.60_amd64.deb.sha256   # optional integrity check
+sudo dpkg -i netcheck_1.2.60_amd64.deb
 ```
 
 After installation, open NetCheck from the TOS desktop and create the admin account on first launch.
 
-## Current release: 1.2.59
+## Current release: 1.2.60
 
 | Architecture | For NAS with | Package | SHA-256 |
 |---|---|---|---|
-| amd64 (x86-64) | Intel / AMD 64-bit models | [netcheck_1.2.59_amd64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.59/netcheck_1.2.59_amd64.deb) | `60527993d203277a53860aa0d5333b4267f340d048021eb8db28dfcb2a96edda` |
-| arm64 (aarch64) | ARM 64-bit models | [netcheck_1.2.59_arm64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.59/netcheck_1.2.59_arm64.deb) | `7df52e6c955d1902f5ca772124238586097cee44f8dcb4cc9fa35349908334db` |
+| amd64 (x86-64) | Intel / AMD 64-bit models | [netcheck_1.2.60_amd64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.60/netcheck_1.2.60_amd64.deb) | `418e0db3fc7c41fbfbb7c9b5bdac8858493aca8567449be3f7198a1ac10ed2e0` |
+| arm64 (aarch64) | ARM 64-bit models | [netcheck_1.2.60_arm64.deb](https://github.com/Moechz/netcheck/releases/download/v1.2.60/netcheck_1.2.60_arm64.deb) | `a7320d23284447be6543ca4413a5770564a01cfe8e1c3a942f8305b50bb64091` |
 
 Not sure? `dpkg --print-architecture` over SSH tells you which one. 不确定机型时，SSH 执行 `dpkg --print-architecture`，输出什么后缀就下载哪个包。
 
 ## Verify
 
 ```bash
-shasum -a 256 -c netcheck_1.2.59_amd64.deb.sha256
-shasum -a 256 -c netcheck_1.2.59_arm64.deb.sha256
+shasum -a 256 -c netcheck_1.2.60_amd64.deb.sha256
+shasum -a 256 -c netcheck_1.2.60_arm64.deb.sha256
 ```
 
 ---
@@ -95,7 +98,7 @@ repository:
 - [Privileged channel (root helper) authorisation & least privilege](compliance/privileged-channel.md)
 - [Supply chain & build provenance](compliance/supply-chain.md)
 - [Software bill of materials](compliance/SBOM.json)
-- [Per-architecture package manifest](release/1.2.59/MANIFEST.amd64.json) (package SHA-256 and every packaged file hash)
+- [Per-architecture package manifest](release/1.2.60/MANIFEST.amd64.json) (package SHA-256 and every packaged file hash)
 
 ## Highlights
 

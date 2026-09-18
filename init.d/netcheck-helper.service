@@ -1,0 +1,63 @@
+[Unit]
+Description=NetCheck privileged repair helper (least-privilege; see compliance/privileged-channel.md)
+After=network.target netcheck.service
+
+[Service]
+Type=simple
+# Numeric uid 0 - TOS remaps the NAME "root" to a decoy uid 9999 with no
+# capabilities on some installs (real root is the admin user); resolving by
+# name would strip every capability and break chown/chmod/network repairs.
+User=0
+Group=0
+# --- Least privilege (audit item V1/S1; full dossier: compliance/privileged-channel.md)
+#   CAP_CHOWN        hand /run/netcheck/{token,helper.sock} to the netcheck user
+#   CAP_DAC_OVERRIDE compatibility for /etc/systemd/network ownership variants
+#   CAP_NET_ADMIN    ip link set / IPv6 sysctl / networkctl / resolvectl
+# Explicitly NOT granted: CAP_SYS_ADMIN, CAP_SYS_MODULE, CAP_SYS_PTRACE,
+# CAP_SYS_RAWIO, CAP_DAC_READ_SEARCH, CAP_SETUID, CAP_SETGID, CAP_KILL,
+# CAP_SYS_TIME, CAP_NET_RAW, CAP_SYS_RESOURCE.
+CapabilityBoundingSet=CAP_CHOWN CAP_DAC_OVERRIDE CAP_NET_ADMIN
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictSUIDSGID=true
+LockPersonality=true
+SystemCallArchitectures=native
+# NOTE: ProtectSystem=strict / PrivateTmp / ProtectHome are intentionally NOT
+# set - they require mount namespaces and fail with 226/NAMESPACE on TOS 7.0.1140
+# (kernel 6.12.63, real-device verified 2026-08-26). Enable them in a later
+# release if the platform lifts that restriction.
+# Runtime files are recreated on every start (O_EXCL would reject stale ones).
+# Runtime dir layout: 0:netcheck (root:netcheck) 0770 -
+#   chown user part is numeric (the name "root" maps to uid 9999 on TOS),
+#   but the GROUP part uses the name "netcheck": group names are NOT
+#   remapped by TOS, and the system-assigned gid differs between machines
+#   (996 on one install, 999 on another) - a hardcoded gid broke the
+#   3-step normalization on real hardware (status=216/GROUP in the bpf
+#   unit, groupless sockets in the helper).
+#   3-step normalization keeps every step legal under the capability
+#   boundary: chown(0:0) via CAP_CHOWN, chmod as directory owner,
+#   chown(0:netcheck) via CAP_CHOWN. chmod-after-chown-to-netcheck fails
+#   EPERM (non-owner, no CAP_FOWNER) - do not reorder. g-s first
+#   self-heals a poisoned setgid bit (GNU chmod preserves directory
+#   setgid in octal mode, which RestrictSUIDSGID= then rejects).
+#   NOTE: mode must NOT carry setgid/suid bits - RestrictSUIDSGID=true
+#   makes any chmod setting those bits fail EPERM (real-device verified
+#   2026-09-14). The bpf unit pins Group=netcheck instead so its socket
+#   inherits the netcheck group; main (uid netcheck) keeps group access.
+ExecStartPre=/bin/mkdir -p /run/netcheck
+ExecStartPre=/bin/chown 0:0 /run/netcheck
+ExecStartPre=/bin/chmod g-s /run/netcheck
+ExecStartPre=/bin/chmod 0770 /run/netcheck
+ExecStartPre=/bin/chown 0:netcheck /run/netcheck
+ExecStartPre=/bin/rm -f /run/netcheck/token /run/netcheck/helper.sock
+WorkingDirectory=/usr/local/netcheck
+ExecStart=/usr/local/netcheck/bin/netcheck-helper
+Environment=NETCHECK_ROOT=/usr/local/netcheck
+UMask=0077
+# NOTE: no Restart=/RestartSec= on purpose - the TOS App Center manages
+# application lifecycle (store review item S05); units start at boot via
+# WantedBy= + enable, and a crashed unit surfaces as an explicit failure
+# instead of silently restart-looping.
+
+[Install]
+WantedBy=multi-user.target

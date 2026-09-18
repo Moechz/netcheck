@@ -12,13 +12,17 @@
 
 | 用途 | 仓库 | 可见性 |
 |---|---|---|
-| 开发仓库（全部源码、设计文档、测试、构建脚本） | `Moechz/TOS-netcheck-pv` | 私有（开发期） |
-| 发布仓库（.deb 产物、版本表、合规材料副本） | `Moechz/netcheck` | 公开：https://github.com/Moechz/netcheck |
+| 开发仓库（设计文档、内部交接材料） | `Moechz/TOS-netcheck-pv` | 私有（开发期） |
+| **发布仓库 = 全量应用源码镜像 + .deb 产物 + 合规材料** | `Moechz/netcheck` | 公开：https://github.com/Moechz/netcheck（config.ini `official` 即指向此处） |
+| 应用源码（Python 后端 `lib/`、Web UI `webui/`、Go/eBPF 采集器 `bpfcollector/`、维护脚本 `DEBIAN/`、单元 `init.d/`、构建与测试 `tools/`+`tests/`） | `Moechz/netcheck` 对应目录 | 公开；`vendor/` 不入镜像，依赖由 `go.sum` 锁定，`go mod vendor` 还原 |
+| 源码版本快照 | 每个 Release 附带 `netcheck_<版本>_src.tar.gz`（含 SHA-256） | 公开，随 Release 下载 |
 | 合规材料（本目录） | `Moechz/netcheck/compliance/` | 公开 URL，可直接下载比对 |
-| **eBPF/Go 采集器源码（`bin/netcheck-bpf` 的可审计源码，审核 V6）** | `Moechz/netcheck` 仓库 `bpfcollector/` 目录（不含 vendor，`go.sum` 锁定依赖版本） | 公开：https://github.com/Moechz/netcheck/tree/main/bpfcollector |
-| 源码版本快照 | 每个 Release 附带 `netcheck_<版本>_bpf-src.tar.gz`（含 SHA-256） | 公开，随 Release 下载 |
 
-应用的全部二进制均由上述开发仓库在受控构建机上生成，无第三方预编译产物：
+**包内可审计性（V6）**：自 1.2.60 起 deb 内 Python 后端以明文 `.py` 随包分发
+（此前的相邻 `.pyc` 字节码载荷已移除），`bin/netcheck-bpf`（包内唯一编译 ELF）
+的源码在上述公开镜像；Web UI 为明文 HTML/JS/CSS。
+
+应用的全部可执行代码均由上述源码构建，无第三方预编译产物：
 `bin/netcheck`、`bin/netcheck-helper` 是包内 Python 入口脚本，`bin/netcheck-bpf`
 由 `bpfcollector/`（Go，依赖全部 vendor 于仓库内）编译而来，`webui.bz2` 由
 `webui/` 打包而来。

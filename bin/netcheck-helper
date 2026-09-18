@@ -1,0 +1,13 @@
+#!/usr/bin/python3
+"""NetCheck privileged repair helper (thin launcher; logic in lib/)."""
+import os
+import sys
+
+APP_ROOT = os.environ.get("NETCHECK_ROOT") or os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(APP_ROOT, "lib"))
+
+from netcheck.helper.server import main  # noqa: E402
+
+if __name__ == "__main__":
+    sys.exit(main())

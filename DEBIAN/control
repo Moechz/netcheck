@@ -1,0 +1,10 @@
+Package: netcheck
+Version: 1.2.60
+Architecture: amd64
+Maintainer: Moechz <Moechz@users.noreply.github.com>
+Depends: libc6 (>= 2.34), python3, systemd
+Section: utils
+Priority: optional
+Description: TOS 7 network diagnosis & repair app (NetCheck)
+ One-click network diagnosis, dual-track bandwidth measurement and guided
+ or automatic network repair for TerraMaster TOS 7 NAS devices.

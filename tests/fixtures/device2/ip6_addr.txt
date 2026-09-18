@@ -1,0 +1,5 @@
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    inet6 240e:3bb:2e86:8990::2ce/128 scope global dynamic noprefixroute
+       valid_lft forever preferred_lft forever
+    inet6 fe80::6ebf:b5ff:fe03:e388/64 scope link
+       valid_lft forever preferred_lft forever

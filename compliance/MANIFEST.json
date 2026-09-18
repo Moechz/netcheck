@@ -1,6 +1,6 @@
 {
   "app": "netcheck",
-  "version": "1.2.59",
+  "version": "1.2.60",
   "platform": "x86_64",
   "deb_architecture": "amd64",
   "install_root": "/usr/local/netcheck",
@@ -15,7 +15,7 @@
       "bytes": 2576
     },
     "privacy-policy.md": {
-      "sha256": "82b326303ba3be592d0565209308072e938d230de4b533fc7c6b35360b03c308",
+      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
       "bytes": 12968
     },
     "third-party-services.md": {
@@ -35,8 +35,8 @@
       "bytes": 18298
     },
     "supply-chain.md": {
-      "sha256": "97f198a53c1b3c33cd435ae6dfe77e8d24b20d3f06f8b96c67ca4663fcb45d16",
-      "bytes": 9043
+      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
+      "bytes": 9362
     }
   },
   "licenses": {
@@ -71,7 +71,7 @@
       "bytes": 2576
     },
     "compliance/SBOM.json": {
-      "sha256": "cb803348817c196d2fee191b4902eab2ae2d330a6ef3bd7c09bd210067f8675c",
+      "sha256": "22c1970dfc19aea58741450bfc993dad49eff07cb71f296e1461193698c8b790",
       "bytes": 4577
     },
     "compliance/data-rights.md": {
@@ -99,7 +99,7 @@
       "bytes": 5930
     },
     "compliance/privacy-policy.md": {
-      "sha256": "82b326303ba3be592d0565209308072e938d230de4b533fc7c6b35360b03c308",
+      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
       "bytes": 12968
     },
     "compliance/privileged-channel.md": {
@@ -107,8 +107,8 @@
       "bytes": 18298
     },
     "compliance/supply-chain.md": {
-      "sha256": "97f198a53c1b3c33cd435ae6dfe77e8d24b20d3f06f8b96c67ca4663fcb45d16",
-      "bytes": 9043
+      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
+      "bytes": 9362
     },
     "compliance/third-party-services.md": {
       "sha256": "ff840327b8332cea1f00ebce3f365b4c01b892ec4e6c771e3a4061bddbef8419",
@@ -123,38 +123,38 @@
       "bytes": 1574
     },
     "config.ini": {
-      "sha256": "45b35ed3b6f6e1ab720ac3f77ceb0badad14a4106bae804a2ab410d2a7022789",
-      "bytes": 707
+      "sha256": "da9c0803ac64c5fcbd242d89eb0d41a0111b562425b088ceb18bf6bf167b1296",
+      "bytes": 686
     },
     "version.json": {
-      "sha256": "44c08e2bcf5712a00284a64ed65e4bbb44d1da2ca449ae4fb0aa70af6fc1461f",
+      "sha256": "9ab194d0028e8abe367a19c34a5da52ff7e11a55e94006655ddcb5795f024fa1",
       "bytes": 170
     },
     "netcheck.lang": {
-      "sha256": "1e959b4b615d7efcdf2f1615cbe43492c5e61ebb872cc237b82ff9645d0c063d",
-      "bytes": 123618
+      "sha256": "cab727c16a7a8ead0bb9cd70c402eed3e1fe377ca9148410ae6e03b956ad43e4",
+      "bytes": 129099
     }
   },
   "contract": {
     "backend_binary_sha256": "57baf0c00452eeba81bf03ff98b5993b310c8de6a47b41ea9066024bb5ce3852",
-    "bpf_collector_binary_sha256": "04702e8165f722b833398af4591c6116cdf1373725f22e30012f3738c0f77a79",
+    "bpf_collector_binary_sha256": "e3ecc38451418e53ba922056c5d33a285f8cd6bd27b8500b5019decd64575810",
     "helper_binary_sha256": "830654a28e143537e7fed35ed2b7465603bb2c80f9e39a15715d100ebacf19ce",
-    "version": "1.2.59",
-    "webui_bz2_sha256": "a9a0725316d72ff2b87d5b52cfdc738089fa6a98b2d89f4c2aeb033ab7f1fccd"
+    "version": "1.2.60",
+    "webui_bz2_sha256": "6c4342657335ce58807d8687b3924501f138a0f91c072ccbb1a6374272127a4b"
   },
   "service_units": {
     "netcheck.service": {
-      "sha256": "f6f7b9670ef82539f3c5ba37360e810f9ac959f03a3cd379609b080e2ce1186f",
+      "sha256": "1ac36486dd0ed419d13f43ede5019fe8882cb856a606f23d5a3bc1c16775d4f2",
       "user": "netcheck",
       "install_path": "/etc/systemd/system/netcheck.service"
     },
     "netcheck-helper.service": {
-      "sha256": "50756785bd7c8e7434ff505176b2e087b1ae6322df9d3b8979f81001051859af",
+      "sha256": "ef8be81d6bc9d313852884644d43f4255830300640ab0b409f5281ffe3379ae7",
       "user": "0",
       "install_path": "/etc/systemd/system/netcheck-helper.service"
     },
     "netcheck-bpf.service": {
-      "sha256": "d10717b9134e9ca2f41701aa3ff0f6556205b1b7afcef0884ec5da4043e59b4a",
+      "sha256": "8873aec64a47f8d05943bd8602703a624a6f576e0ec6412d2da4b2e88aed0686",
       "user": "0",
       "install_path": "/etc/systemd/system/netcheck-bpf.service"
     }

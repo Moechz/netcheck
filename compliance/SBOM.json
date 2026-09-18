@@ -3,12 +3,12 @@
   "specVersion": "1.5",
   "version": 1,
   "metadata": {
-    "timestamp": "2026-09-17T11:20:00+08:00",
+    "timestamp": "2026-09-18T10:30:00+08:00",
     "component": {
       "type": "application",
-      "bom-ref": "netcheck@1.2.59",
+      "bom-ref": "netcheck@1.2.60",
       "name": "NetCheck",
-      "version": "1.2.59",
+      "version": "1.2.60",
       "author": "Moechz",
       "supplier": {
         "name": "Moechz",

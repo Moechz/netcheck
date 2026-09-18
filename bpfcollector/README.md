@@ -27,8 +27,8 @@ covered by `LICENSE.BSD-2-Clause`.
 ## Public source mirror (review V6)
 
 The source of the shipped `bin/netcheck-bpf` ELF is published for audit at
-https://github.com/Moechz/netcheck under `bpfcollector/` (and as the release
-asset `netcheck_<version>_bpf-src.tar.gz`, pinned to each version).
+https://github.com/Moechz/netcheck under `bpfcollector/` (and in the release
+asset `netcheck_<version>_src.tar.gz`, pinned to each version).
 
 The mirror excludes `vendor/` (size only): run `go mod vendor` — module
 versions are pinned by the committed `go.sum` — then

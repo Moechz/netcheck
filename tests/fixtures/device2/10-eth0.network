@@ -1,0 +1,12 @@
+[Match]
+MACAddress=6c:bf:b5:03:e3:88
+
+[Network]
+DHCP=ipv6
+Address=192.168.124.56/24
+DNS=192.168.124.1
+
+[Route]
+Destination=0.0.0.0/0
+Gateway=192.168.124.1
+Metric=100

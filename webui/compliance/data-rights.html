@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户数据权利 / Data Access, Correction, Deletion · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><div class="langbar"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div><section id="block-zh"><h1 id="用户数据查阅-更正-删除途径说明">用户数据查阅、更正、删除途径说明</h1>
+<h1 id="user-data-access-correction-and-deletion">User Data Access, Correction and Deletion</h1>
+<ul><li>适用版本：NetCheck 1.2.54（应用 ID <code>netcheck</code>）</li><li>本文回答审核项 <strong>C5</strong>。所有数据都保存在您自己的 TOS 设备上， <strong>查阅、更正、导出、删除均在本地完成，不需要向开发者提交任何申请</strong>。</li></ul>
+<hr>
+<h2 id="一-中文版">一、中文版</h2>
+<h3 id="1-数据位置一览">1. 数据位置一览</h3>
+<p>应用目录：<code>/usr/local/netcheck/</code>（App Center 可能映射到所选存储卷下的应用目录； 可用 <code>readlink -f /usr/local/netcheck</code> 确认实际路径）。</p>
+<table><thead><tr><th>数据</th><th>文件/目录</th></tr></thead><tbody><tr><td>账户（用户名、口令散列、恢复码散列）</td><td><code>data/auth/users.json</code></td></tr><tr><td>登录会话</td><td><code>data/auth/sessions.json</code></td></tr><tr><td>应用设置（含保留期限）</td><td><code>data/settings.json</code></td></tr><tr><td>诊断历史</td><td><code>data/diag-history/*.json</code></td></tr><tr><td>修复历史</td><td><code>data/fix-history.json</code></td></tr><tr><td>链路质量趋势</td><td><code>data/trends/*.json</code></td></tr><tr><td>告警历史</td><td><code>data/alerts/*.json</code></td></tr><tr><td>网络配置快照</td><td><code>data/snapshots/&lt;snapshot_id&gt;/</code></td></tr><tr><td>修复前备份</td><td><code>data/backups/&lt;action&gt;-&lt;时间戳&gt;/</code></td></tr><tr><td>应用日志</td><td><code>logs/app.log*</code></td></tr><tr><td>操作审计 / 特权通道审计</td><td><code>logs/operation-audit.jsonl*</code>、<code>logs/helper-audit.log</code></td></tr><tr><td>运行时令牌与套接字</td><td><code>/run/netcheck/token</code>、<code>/run/netcheck/helper.sock</code>、<code>/run/netcheck/bpf-traffic.sock</code></td></tr></tbody></table>
+<h3 id="2-查阅">2. 查阅</h3>
+<ul><li><strong>界面</strong>：历史（诊断/修复记录与下载）、快照（列表与差异对比）、设置（当前配置 与保留期限）、关于（版本信息）。</li><li><strong>接口</strong>：<code>GET /api/diag/history</code>、<code>GET /api/fix/history</code>、<code>GET /api/snapshots</code>、 <code>GET /api/settings</code>、<code>GET /api/alerts</code>（经平台代理并可被审计）。</li><li><strong>直接读取</strong>：使用上表路径，例如 <code>sudo cat /usr/local/netcheck/data/settings.json</code>； 账户文件仅含散列与盐，不含明文口令，同样可查阅。</li></ul>
+<h3 id="3-导出">3. 导出</h3>
+<table><thead><tr><th>内容</th><th>界面</th><th>接口</th></tr></thead><tbody><tr><td>诊断历史（JSON）</td><td>历史 → 下载</td><td><code>GET /api/diag/history/export</code></td></tr><tr><td>修复历史（JSON）</td><td>历史 → 下载</td><td><code>GET /api/fix/history/export</code></td></tr><tr><td>网络配置快照</td><td>快照 → 差异</td><td><code>GET /api/snapshots/{id}/diff</code></td></tr><tr><td>合规材料</td><td>应用内嵌页面 <code>/netcheck/compliance/index.html</code></td><td><code>compliance/</code> 目录文件</td></tr></tbody></table>
+<p>命令行示例（无需界面）：</p>
+<pre><code>sudo tar czf /tmp/netcheck-data.tgz -C /usr/local/netcheck data logs</code></pre>
+<h3 id="4-更正">4. 更正</h3>
+<table><thead><tr><th>目标</th><th>途径</th></tr></thead><tbody><tr><td>用户名 / 口令</td><td>设置 → 账户 → 修改用户名 / 修改密码</td></tr><tr><td>忘记口令</td><td>登录页「忘记密码」→ 使用初始化时的一次性恢复码重置（恢复码用后即换）</td></tr><tr><td>网络参数与保留期限</td><td>设置页面（写入 <code>data/settings.json</code>，原子替换）</td></tr><tr><td>网络配置回滚</td><td>快照 → 恢复（写入前自动备份，可再回滚）</td></tr></tbody></table>
+<h3 id="5-删除">5. 删除</h3>
+<table><thead><tr><th>范围</th><th>界面/命令</th></tr></thead><tbody><tr><td>单条诊断或修复记录</td><td>历史 → 删除</td></tr><tr><td>全部诊断与修复历史</td><td>历史 → 清空全部（<code>POST /api/history/clear</code>）</td></tr><tr><td>单份快照</td><td>快照 → 删除（<code>data/snapshots/&lt;id&gt;/</code>）</td></tr><tr><td>修复备份</td><td><code>sudo rm -rf /usr/local/netcheck/data/backups/*</code></td></tr><tr><td>审计与日志</td><td><code>sudo rm -f /usr/local/netcheck/logs/*</code></td></tr><tr><td>运行时令牌</td><td><code>sudo rm -f /run/netcheck/token</code>（重启后重新生成）</td></tr><tr><td>全部应用数据（保留程序）</td><td><code>sudo rm -rf /usr/local/netcheck/data /usr/local/netcheck/logs /run/netcheck</code></td></tr><tr><td>完整卸载并清除数据</td><td>App Center 卸载时勾选「删除所有配置项」，或 <code>sudo dpkg --purge netcheck</code></td></tr></tbody></table>
+<p><code>dpkg --purge netcheck</code> 会删除 <code>data/</code>（账户、历史、快照、备份、设置）、 <code>logs/</code>、<code>/usr/www/netcheck</code>、systemd 单元与运行时套接字；<code>netcheck</code> 系统账户由 平台策略保留（TOS 应用账户为平台级对象）。彻底移除系统账户：</p>
+<pre><code>sudo userdel netcheck 2&gt;/dev/null || true</code></pre>
+<blockquote>网络配置本身（<code>/etc/systemd/network/*.network</code>）属于 TOS 系统配置而非应用数据； 如需还原，请使用「快照 → 恢复」或 TOS 控制面板，应用不会自行删除系统文件。</blockquote>
+<h3 id="6-撤回同意-停止处理">6. 撤回同意 / 停止处理</h3>
+<ul><li>关闭持续监控：设置 → 监控 → 关闭（停止写入 <code>data/trends/</code>）。</li><li>关闭报警：保持通知渠道为关闭状态。</li><li>停止特权通道：设置 → 修复模式改为「指引」，并 <code>sudo systemctl disable --now netcheck-helper.service</code>。</li><li>停止全部处理：卸载应用（见上表）。</li></ul>
+<h3 id="7-响应时限与联系方式">7. 响应时限与联系方式</h3>
+<p>由于所有操作均在本地完成，通常无需等待。如需开发者协助（例如理解文件含义或 迁移数据），请联系 <strong>GitHub Issues（https://github.com/Moechz/netcheck/issues）</strong>，我们将在 <strong>15 个工作日</strong>内答复。</p>
+<hr>
+</section><section id="block-en" hidden><h2 id="二-english-version">二、English version</h2>
+<p>All NetCheck data lives on your own TOS device under <code>/usr/local/netcheck/</code> (<code>data/</code> and <code>logs/</code>; use <code>readlink -f /usr/local/netcheck</code> for the real path). <strong>Access, correction, export and deletion are local operations — no request to the developer is needed.</strong></p>
+<ul><li><strong>Access</strong> — in the UI (History, Snapshots, Settings, About) or through <code>GET /api/diag/history</code>, <code>GET /api/fix/history</code>, <code>GET /api/snapshots</code>, <code>GET /api/settings</code>, <code>GET /api/alerts</code>, or by reading the files directly (<code>data/auth/users.json</code> holds hashes and salts only, never plaintext).</li><li><strong>Export</strong> — <code>GET /api/diag/history/export</code>, <code>GET /api/fix/history/export</code>, snapshot diffs, or <code>sudo tar czf /tmp/netcheck-data.tgz -C /usr/local/netcheck data logs</code>.</li><li><strong>Correction</strong> — Settings → Account (username/password; forgotten passwords are reset with the one-time recovery code), Settings page for all parameters and retention limits, Snapshot restore for network configuration.</li><li><strong>Deletion</strong> — per-record delete or "Clear All" in History (<code>POST /api/history/clear</code>), snapshot delete, <code>rm -rf data/backups/*</code>, <code>rm -f logs/*</code>, <code>rm -f /run/netcheck/token</code>, full <code>rm -rf data logs /run/netcheck</code>, or uninstall with "delete all configuration" / <code>dpkg --purge netcheck</code> (removes <code>data/</code>, <code>logs/</code>, <code>/usr/www/netcheck</code>, systemd units and runtime sockets; the platform-level <code>netcheck</code> system account can be removed with <code>sudo userdel netcheck</code>). Network configuration files under <code>/etc/systemd/network/</code> are TOS system configuration, not application data — restore them with Snapshot → Restore instead of deleting them.</li><li><strong>Withdraw consent</strong> — turn continuous monitoring off, keep alert channels disabled, switch repair mode to "guide" and <code>systemctl disable --now netcheck-helper.service</code>, or uninstall.</li><li><strong>Contact</strong> — https://github.com/Moechz/netcheck/issues, reply within 15 business days.</li></ul></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main><script>
+(function(){
+  var zh=document.getElementById('lang-zh'),en=document.getElementById('lang-en');
+  if(!zh||!en)return;
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    var showZh=lang!=='en';
+    document.getElementById('block-zh').hidden=!showZh;
+    document.getElementById('block-en').hidden=showZh;
+    zh.setAttribute('aria-pressed',String(showZh));
+    en.setAttribute('aria-pressed',String(!showZh));
+  }
+  zh.addEventListener('click',function(){apply('zh');});
+  en.addEventListener('click',function(){apply('en');});
+  var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+  apply(q==='en'?'en':'zh');
+})();
+</script></body></html>

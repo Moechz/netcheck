@@ -1,0 +1,53 @@
+[Unit]
+Description=NetCheck Go eBPF traffic collector (least-privilege read-only counters)
+After=network.target netcheck-helper.service
+
+[Service]
+Type=simple
+# Numeric uid 0 - TOS remaps the NAME "root" to a decoy uid 9999 with no
+# capabilities on some installs; resolving by name would make CAP_BPF/
+# CAP_PERFMON ineffective and the collector could not load its filter.
+User=0
+# Group by NAME (netcheck): TOS remaps only the user NAME "root" (to a decoy
+# uid 9999); group names resolve normally, so this stays correct on every
+# machine regardless of which gid the system assigned to the netcheck group
+# (996 on one install, 999 on another - hardcoded gids failed with
+# status=216/GROUP on real hardware). The socket created by the collector
+# inherits this group (setgid on the directory is not an option:
+# RestrictSUIDSGID= denies chmod that sets sgid; the binary chmods 0660).
+Group=netcheck
+# --- Least privilege (read-only counters; see compliance/privileged-channel.md)
+#   CAP_NET_RAW      create the AF_PACKET sockets used to count interface bytes
+#   CAP_BPF          load the eBPF socket filter and create its kernel map (>=5.8)
+#   CAP_PERFMON      perf-event style access required by the BPF loader
+#   CAP_NET_ADMIN    SO_ATTACH_BPF to attach the filter
+# This service writes no system configuration and reads no packet payloads
+# (the filter returns 0, discarding the copy). Main backend falls back to
+# /proc/net/dev automatically when this unit is unavailable.
+CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_BPF CAP_PERFMON
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK AF_PACKET
+RestrictSUIDSGID=true
+LockPersonality=true
+SystemCallArchitectures=native
+LimitMEMLOCK=infinity
+# NOTE: ProtectSystem/PrivateTmp/ProtectHome are intentionally NOT set - they
+# require mount namespaces and fail with 226/NAMESPACE on TOS 7.0.1140
+# (kernel 6.12.63, real-device verified 2026-08-26 for the helper unit).
+# Directory ownership/permissions are normalized by netcheck-helper.service
+# (this unit has no CAP_CHOWN - chown here would fail EPERM). As directory
+# owner (uid 0) the collector can remove stale and create its socket, and
+# with Group=netcheck the socket inherits the netcheck group (binary sets
+# 0660), so the main service (uid netcheck) can connect.
+ExecStartPre=/bin/mkdir -p /run/netcheck
+WorkingDirectory=/usr/local/netcheck
+ExecStart=/usr/local/netcheck/bin/netcheck-bpf
+Environment=NETCHECK_ROOT=/usr/local/netcheck
+UMask=0007
+# NOTE: no Restart=/RestartSec= on purpose - the TOS App Center manages
+# application lifecycle (store review item S05); units start at boot via
+# WantedBy= + enable, and a crashed unit surfaces as an explicit failure
+# instead of silently restart-looping.
+
+[Install]
+WantedBy=multi-user.target

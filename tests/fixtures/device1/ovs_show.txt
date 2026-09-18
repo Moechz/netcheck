@@ -1,0 +1,14 @@
+4d31d0ef-b181-4352-924e-d953a07f2e60
+    Bridge ovs_eth1
+        Port ovs_eth1
+            Interface ovs_eth1
+                type: internal
+        Port eth1
+            Interface eth1
+    Bridge ovs_eth0
+        Port eth0
+            Interface eth0
+        Port ovs_eth0
+            Interface ovs_eth0
+                type: internal
+    ovs_version: "2.17.9"

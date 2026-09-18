@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第三方服务与数据去向 / Third-Party Services · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><div class="langbar"><button id="lang-zh" type="button" aria-pressed="true">中文</button><button id="lang-en" type="button" aria-pressed="false">English</button></div><section id="block-zh"><h1 id="第三方服务-外部端点与数据去向说明">第三方服务 / 外部端点与数据去向说明</h1>
+<h1 id="third-party-services-external-endpoints-and-data-flows">Third-Party Services, External Endpoints and Data Flows</h1>
+<ul><li>适用版本：NetCheck 1.2.54（应用 ID <code>netcheck</code>）</li><li>本文回答审核项 <strong>C4</strong>：带宽测速是否调用 ookla / iperf3 等外部服务，数据去向、 传输地域与共享情况。</li><li>结论先行：<strong>NetCheck 不自带、不调用 Ookla 官方 CLI/SDK，也不捆绑 iperf3 二进制或任何第三方测速服务账号</strong>；它使用自己的 HTTPS/ICMP 网络栈与公开端点 通信，全部外部通信都由您在界面上主动触发，且不会向开发者回传任何数据。</li></ul>
+<hr>
+<h2 id="一-中文版">一、中文版</h2>
+<h3 id="1-带宽测速-wan">1. 带宽测速（WAN）</h3>
+<table><thead><tr><th>模式</th><th>使用的程序/端点</th><th>协议与端口</th><th>数据去向</th><th>触发方式</th></tr></thead><tbody><tr><td>Ookla 兼容模式（默认，<code>bandwidth.wan_mode=ookla</code>）</td><td><code>https://www.speedtest.net/speedtest-config.php</code>、<code>https://www.speedtest.net/speedtest-servers-static.php</code>（获取服务器列表）；随后与<strong>所选测速服务器</strong>进行 <code>/speedtest/random{N}x{N}.jpg</code> 下载与 <code>/speedtest/upload.php</code> 上传</td><td>HTTPS/HTTP 80/443</td><td>Speedtest.net（Ookla）公开端点 + 第三方测速服务器</td><td>仅当您点击「开始测速」</td></tr><tr><td>内置回退端点（服务器列表不可用时）</td><td><code>https://speed.cloudflare.com</code>、<code>https://speed.hetzner.de</code></td><td>HTTPS 443</td><td>Cloudflare / Hetzner 公共测速端点</td><td>同上，且仅在获取不到列表时</td></tr><tr><td>自建 HTTP 端点</td><td>您在设置中填写的 URL（<code>bandwidth.http_speed_endpoint</code>）</td><td>HTTPS/HTTP</td><td>由您指定的服务器</td><td>仅当您点击「开始测速」</td></tr><tr><td>局域网 iperf3</td><td>系统 <code>iperf3</code>（<strong>仅在设备上已安装时可用，未随包分发</strong>）</td><td>TCP 5201（可配置）</td><td>您在界面上填写的局域网目标</td><td>仅当您点击「开始测速」</td></tr><tr><td>iperf3 服务端模式</td><td>本机 <code>iperf3 -s</code> 监听 5201，等待您自己的客户端连接</td><td>TCP 5201</td><td>无外部去向，仅接受您发起的连接</td><td>仅当您点击「启动服务端」</td></tr></tbody></table>
+<p>说明：</p>
+<ul><li>Ookla 兼容模式是<strong>自行实现的 HTTP 客户端</strong>（Apache-2.0 代码），只使用公开的 端点协议；不包含、不调用 Ookla 官方 CLI/SDK，不注册 Ookla 账号。</li><li>请求中携带的信息仅为协议必需项：来源 IP、<code>User-Agent: NetCheck/1.0</code>、 测速用的随机数据块；<strong>不包含</strong>您的账户、主机名、NAS 文件、诊断历史或任何 个人标识。</li><li>为避免误报，应用在启动测试前会用一次 UDP <code>connect(8.8.8.8:80)</code> 做<strong>路由 选择</strong>，该调用不发送任何报文。</li></ul>
+<h3 id="2-网络诊断产生的外部通信">2. 网络诊断产生的外部通信</h3>
+<table><thead><tr><th>检查项</th><th>端点</th><th>协议</th><th>说明</th></tr></thead><tbody><tr><td>公网连通性（IPv4）</td><td><code>223.5.5.5</code>（AliDNS）、<code>8.8.8.8</code>（Google DNS）</td><td>ICMP Echo</td><td>仅测量丢包与时延</td></tr><tr><td>公网连通性（IPv6）</td><td><code>2400:3200::1</code>（AliDNS IPv6）</td><td>ICMP/HTTPS</td><td>仅测量可达性</td></tr><tr><td>HTTPS 可达性</td><td><code>https://www.baidu.com</code></td><td>HTTPS 443</td><td>一次 HEAD/GET 探针</td></tr><tr><td>DNS 对比（工具）</td><td><code>223.5.5.5</code>、<code>119.29.29.29</code>、<code>8.8.8.8</code></td><td>DNS 53</td><td>查询 <code>www.baidu.com</code> 的 A 记录，用于检测劫持</td></tr><tr><td>代理检查</td><td>经您配置的代理访问 <code>http://example.com</code>（示例目标）</td><td>HTTP</td><td>验证代理是否可用</td></tr><tr><td>TOS 平台端点</td><td><code>https://app.terra-master.com</code>（应用市场）、<code>https://download3.terra-master.com</code>、<code>https://dl.terra-master.com</code>（升级）</td><td>HTTPS 443</td><td>检查 TOS 自身服务可达性</td></tr><tr><td>NTP</td><td>本机 <code>ntp.service</code>/<code>ntpd</code>（<code>ntpq -c peers/rv</code>）</td><td>本地查询</td><td>应用不直接连接 NTP 服务器，上游由 TOS 配置</td></tr><tr><td>局域网设备发现</td><td>本地 IPv4 子网（ARP 表 + ping 扫描）</td><td>ARP/ICMP</td><td><strong>仅在您的局域网内</strong>，不外发</td></tr><tr><td>TOS 状态</td><td>本机 TOS 接口（TNAS.online / DDNS / 防火墙状态）</td><td>本地 Unix/HTTP</td><td>只读查询，不联外网</td></tr></tbody></table>
+<p>上述目标均可在设置中修改（<code>diag.ping_public_ips</code>、<code>diag.public_probe_urls</code>、 <code>diag.ipv6_targets</code>、<code>diag.tos_endpoints</code>、<code>diag.dns_probe_domain</code>）。</p>
+<h3 id="3-报警通道">3. 报警通道</h3>
+<table><thead><tr><th>通道</th><th>去向</th><th>触发</th></tr></thead><tbody><tr><td>TOS 系统通知</td><td>本机 TOS 平台</td><td>默认关闭，需您显式开启</td></tr><tr><td>邮件（SMTP）</td><td>您填写的 SMTP 服务器与收件人</td><td>默认关闭，需您填写并启用</td></tr><tr><td>Webhook</td><td>您填写的 URL</td><td>默认关闭，需您填写并启用</td></tr></tbody></table>
+<p>告警内容仅包含事件类型、接口、阈值与实际值，不含凭据（凭据在写日志前统一脱敏）。</p>
+<h3 id="4-传输地域与共享情况">4. 传输地域与共享情况</h3>
+<ul><li><strong>传输地域</strong>：由目标端点决定。测速服务器由应用按地理位置自动选择，也可由您 手动指定；因此可能位于您所在国家/地区之外，属于跨境传输。ICMP/DNS 探针指向 您配置的公共地址（默认含中国境内 AliDNS 与美国 Google DNS）。</li><li><strong>共享情况</strong>：应用不与任何第三方共享数据，也不向其提供账户或历史信息；端点上 「看到」的仅是您的公网出口 IP 与前述协议必需字段，其处理规则适用各端点的 隐私政策。开发者不接收、不存储任何上述数据。</li><li><strong>不开启即不发生</strong>：不点击测速、不运行外部诊断时，应用不会主动与外部端点 通信；后台监控只使用本地内核统计与本机 ping。</li></ul>
+<h3 id="5-如何完全关闭外部通信">5. 如何完全关闭外部通信</h3>
+<ol><li>设置 → 带宽测速 → WAN 模式选择「局域网 iperf3」或「自建 HTTP 端点」（若均 不可用则不要执行 WAN 测速）；</li><li>不运行「诊断」与「工具」中的外部检查项（或把探针地址改为内网地址）；</li><li>关闭报警通道（保持默认关闭）；</li><li>关闭持续监控（设置 → 监控 → 关闭），此时应用只在你打开界面时读取本地状态。</li></ol>
+<hr>
+</section><section id="block-en" hidden><h2 id="二-english-version">二、English version</h2>
+<p><strong>NetCheck does not bundle, invoke or require the official Ookla CLI/SDK, does not bundle the iperf3 binary, and holds no third-party speed-test account.</strong> Bandwidth testing is implemented with the application's own HTTP client (Apache-2.0 code) talking to public endpoints, and <code>iperf3</code> is used only if the operator has already installed it on the device.</p>
+<h3 id="1-wan-bandwidth-measurement">1. WAN bandwidth measurement</h3>
+<table><thead><tr><th>Mode</th><th>Endpoints</th><th>Protocol/Port</th><th>Trigger</th></tr></thead><tbody><tr><td>Ookla-compatible (default)</td><td><code>speedtest.net/speedtest-config.php</code>, <code>/speedtest-servers-static.php</code>, then download <code>/speedtest/random{N}x{N}.jpg</code> and upload <code>/speedtest/upload.php</code> on the <strong>selected</strong> test server</td><td>HTTP/HTTPS 80/443</td><td>only when you press Start</td></tr><tr><td>Built-in fallback</td><td><code>speed.cloudflare.com</code>, <code>speed.hetzner.de</code></td><td>HTTPS 443</td><td>only if the server list is unavailable</td></tr><tr><td>Custom HTTP endpoint</td><td>the URL you configure</td><td>HTTP/HTTPS</td><td>only when you press Start</td></tr><tr><td>LAN iperf3</td><td>system <code>iperf3</code> if installed (not shipped)</td><td>TCP 5201</td><td>only when you press Start</td></tr><tr><td>iperf3 server mode</td><td>local <code>iperf3 -s</code> on 5201</td><td>TCP 5201</td><td>only when you press Start Server</td></tr></tbody></table>
+<p>Only protocol-required fields leave the device (source IP, <code>User-Agent: NetCheck/1.0</code>, random test payloads). No account, hostname, file, history or personal identifier is transmitted. A UDP <code>connect(8.8.8.8:80)</code> is performed for route selection only and sends no packet.</p>
+<h3 id="2-diagnostic-endpoints">2. Diagnostic endpoints</h3>
+<p>ICMP to <code>223.5.5.5</code> and <code>8.8.8.8</code>; ICMP/HTTPS to <code>2400:3200::1</code>; one HTTPS probe to <code>https://www.baidu.com</code>; DNS queries to <code>223.5.5.5</code>, <code>119.29.29.29</code>, <code>8.8.8.8</code> for the configured probe domain; HTTP proxy check against <code>http://example.com</code> through your proxy; HTTPS reachability to TOS platform endpoints <code>app.terra-master.com</code>, <code>download3.terra-master.com</code>, <code>dl.terra-master.com</code>; NTP state read locally from <code>ntp.service</code> via <code>ntpq</code> (upstream servers are configured by TOS, not by NetCheck); LAN device discovery stays inside your local subnet (ARP + ICMP). All targets are configurable.</p>
+<h3 id="3-alert-channels">3. Alert channels</h3>
+<p>TOS notification (off by default), SMTP (your server), webhook (your URL) — all off until you configure them; payloads contain event type, interface, threshold and measured value only.</p>
+<h3 id="4-regions-and-sharing">4. Regions and sharing</h3>
+<p>Transfer region follows the endpoint: speed-test servers may be outside your country (cross-border), and the default ICMP/DNS probes resolve to AliDNS (China) and Google DNS (US). The application shares no data with any third party, and the developer receives and stores nothing. If you never start a speed test or an external check, no external traffic is generated — background monitoring uses local kernel counters and local ping only.</p>
+<h3 id="5-how-to-disable-external-traffic-completely">5. How to disable external traffic completely</h3>
+<p>Switch WAN mode to LAN iperf3 or a self-hosted HTTP endpoint (or do not run WAN tests), avoid external diagnostic items (or point probes at internal addresses), keep alert channels disabled, and turn continuous monitoring off.</p></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main><script>
+(function(){
+  var zh=document.getElementById('lang-zh'),en=document.getElementById('lang-en');
+  if(!zh||!en)return;
+  function apply(lang){
+    document.documentElement.setAttribute('data-lang',lang);
+    var showZh=lang!=='en';
+    document.getElementById('block-zh').hidden=!showZh;
+    document.getElementById('block-en').hidden=showZh;
+    zh.setAttribute('aria-pressed',String(showZh));
+    en.setAttribute('aria-pressed',String(!showZh));
+  }
+  zh.addEventListener('click',function(){apply('zh');});
+  en.addEventListener('click',function(){apply('en');});
+  var q=(location.search.match(/[?&]lang=(\w+)/)||[])[1];
+  apply(q==='en'?'en':'zh');
+})();
+</script></body></html>

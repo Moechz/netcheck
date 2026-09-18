@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合规与政策 / Compliance &amp; Policies · NetCheck</title>
+<style>
+:root{--bg:#0f1713;--card:#16211b;--fg:#e8f2ec;--dim:#a7b8ae;--acc:#6fc258;--bd:#27392f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);
+ font:15px/1.75 -apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;justify-content:space-between;
+ padding:14px 22px;background:rgba(15,23,19,.94);border-bottom:1px solid var(--bd);backdrop-filter:blur(6px)}
+header a{color:var(--fg);text-decoration:none;font-weight:600}
+header .sub{color:var(--dim);font-size:13px}
+main{max-width:960px;margin:0 auto;padding:22px 22px 60px}
+.langbar{display:flex;gap:8px;margin:0 0 18px}
+.langbar button{cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--dim);
+ border-radius:8px;padding:6px 14px;font-size:13px}
+.langbar button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#0d1a10;font-weight:600}
+h1{font-size:24px;line-height:1.35;margin:6px 0 18px}
+h2{font-size:19px;margin:28px 0 10px;padding-top:14px;border-top:1px solid var(--bd)}
+h3{font-size:16px;margin:22px 0 8px}
+h4{font-size:14px;margin:18px 0 6px;color:var(--dim)}
+p{margin:10px 0}
+ul,ol{margin:10px 0 10px 22px;padding:0}
+li{margin:4px 0}
+code{background:#0b120e;border:1px solid var(--bd);border-radius:5px;padding:1px 5px;font-size:13px}
+pre{background:#0b120e;border:1px solid var(--bd);border-radius:10px;padding:14px;overflow:auto}
+pre code{background:none;border:0;padding:0;font-size:12.5px;line-height:1.6}
+blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--acc);background:var(--card);color:var(--dim)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;display:block;overflow-x:auto}
+th,td{border:1px solid var(--bd);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--card);font-weight:600;white-space:nowrap}
+a{color:var(--acc)}
+hr{border:0;border-top:1px solid var(--bd);margin:24px 0}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));margin:18px 0}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;
+ text-decoration:none;color:var(--fg)}
+.card b{display:block;font-size:15px;margin-bottom:6px}
+.card span{display:block;color:var(--dim);font-size:13px}
+.toc{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;margin:18px 0}
+.toc b{display:block;margin-bottom:6px;font-size:13px;color:var(--dim)}
+.toc a{display:block;font-size:13.5px;text-decoration:none;margin:3px 0}
+footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-top:34px;padding-top:14px}
+[hidden]{display:none}
+</style></head>
+<body>
+<header><a href="index.html">NetCheck 合规与政策</a><span class="sub">NetCheck · Compliance &amp; Policies</span></header>
+<main><section id="block-zh"><h1>合规与政策 / Compliance &amp; Policies</h1><p>本页材料由安装包内的 <code>compliance/</code> 目录生成，与 <code>/usr/local/netcheck/compliance/</code> 中的文件逐字节一致，同时发布于 <a href="https://github.com/Moechz/netcheck/tree/main/compliance">github.com/Moechz/netcheck</a>。</p><div class="cards"><a class="card" href="README.html"><b>材料索引 / Dossier Index</b><span>审核项与材料对照表 / Review-item mapping</span></a><a class="card" href="privileged-channel.html"><b>特权通道授权与最小权限 / Privileged Channel</b><span>V1·S1：root 辅助服务的授权依据、能力清单与关闭方法</span></a><a class="card" href="privacy-policy.html"><b>隐私政策 / Privacy Policy</b><span>C2：处理的数据、保存期限、安全措施、第三方共享、删除途径</span></a><a class="card" href="third-party-services.html"><b>第三方服务与数据去向 / Third-Party Services</b><span>C4：ookla/iperf3 等外部调用、传输地域与共享情况</span></a><a class="card" href="data-rights.html"><b>用户数据权利 / Data Access, Correction, Deletion</b><span>C5：查阅、更正、导出、删除的确切途径与命令</span></a><a class="card" href="licenses.html"><b>开源许可与依赖声明 / Licenses &amp; Dependencies</b><span>C3：应用与第三方组件许可证、无 copyleft 捆绑声明</span></a><a class="card" href="supply-chain.html"><b>供应链与维护脚本 / Supply Chain</b><span>S8·S9：仓库来源、构建复现、.deb 维护脚本与 SBOM</span></a></div><p>联系渠道 / Contact: <a href="https://github.com/Moechz/netcheck/issues">github.com/Moechz/netcheck/issues</a></p></section>
+<footer>NetCheck (netcheck) · Developer/Publisher: Moechz · TerraMaster TOS 7 ·
+github.com/Moechz/netcheck · 本页由 compliance/ 目录下的 Markdown 直接生成，与安装包内容一致。</footer>
+</main></body></html>

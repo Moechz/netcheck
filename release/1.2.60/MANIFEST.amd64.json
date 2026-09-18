@@ -1,0 +1,195 @@
+{
+  "app": "netcheck",
+  "version": "1.2.60",
+  "platform": "x86_64",
+  "deb_architecture": "amd64",
+  "install_root": "/usr/local/netcheck",
+  "compliance_dir": "/usr/local/netcheck/compliance",
+  "public_docs": "https://github.com/Moechz/netcheck/tree/main/compliance",
+  "contact": "https://github.com/Moechz/netcheck/issues",
+  "generated_by": "tools/build_deb.py",
+  "note": "Hashes are computed after bytecode compilation, before tar creation; verify with sha256sum against the installed files. The package-level SHA-256 is published in the release bundle and in the .deb.sha256 file.",
+  "dossier_docs": {
+    "README.md": {
+      "sha256": "fee95cc7f2d641580118590097ea6d0ae0790e78ed7a15d489050ea688fefa9c",
+      "bytes": 2576
+    },
+    "privacy-policy.md": {
+      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
+      "bytes": 12968
+    },
+    "third-party-services.md": {
+      "sha256": "ff840327b8332cea1f00ebce3f365b4c01b892ec4e6c771e3a4061bddbef8419",
+      "bytes": 8711
+    },
+    "data-rights.md": {
+      "sha256": "db5bdcc37b65da9097bff3a3428205e7b906f6cf8a4fcb0586e5e25115e3bc98",
+      "bytes": 6671
+    },
+    "licenses.md": {
+      "sha256": "812bce107c62410d1114fe7624032d02b1b28cc6847753a3754d3c3ad4f37a0d",
+      "bytes": 5930
+    },
+    "privileged-channel.md": {
+      "sha256": "2b527ddd4cf8007655799b945f2cba34ee0df7a4438a4988fe555532991f5f92",
+      "bytes": 18298
+    },
+    "supply-chain.md": {
+      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
+      "bytes": 9362
+    }
+  },
+  "licenses": {
+    "cilium-ebpf-MIT.txt": {
+      "sha256": "0fdf0f61940491a322e3f8b8cef27f7063f57a6ecc888589468e54e71ab3d70f",
+      "bytes": 1142
+    },
+    "cilium-ebpf-examples-headers-BSD-2-Clause.txt": {
+      "sha256": "6313108c23efffa36948f8b2cff1560a5935373b527b0e1a837cc77e6ed1bacd",
+      "bytes": 1641
+    },
+    "golang-x-exp-BSD-3-Clause.txt": {
+      "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067",
+      "bytes": 1479
+    },
+    "golang-x-sys-BSD-3-Clause.txt": {
+      "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067",
+      "bytes": 1479
+    }
+  },
+  "packaged_files": {
+    "compliance/LICENSE": {
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    "compliance/NOTICE": {
+      "sha256": "589ea312f2f4ae3f38a0378560e7ca380a4aae3409b7a2601e9ff57769abb3fa",
+      "bytes": 1574
+    },
+    "compliance/README.md": {
+      "sha256": "fee95cc7f2d641580118590097ea6d0ae0790e78ed7a15d489050ea688fefa9c",
+      "bytes": 2576
+    },
+    "compliance/SBOM.json": {
+      "sha256": "22c1970dfc19aea58741450bfc993dad49eff07cb71f296e1461193698c8b790",
+      "bytes": 4577
+    },
+    "compliance/data-rights.md": {
+      "sha256": "db5bdcc37b65da9097bff3a3428205e7b906f6cf8a4fcb0586e5e25115e3bc98",
+      "bytes": 6671
+    },
+    "compliance/licenses/cilium-ebpf-MIT.txt": {
+      "sha256": "0fdf0f61940491a322e3f8b8cef27f7063f57a6ecc888589468e54e71ab3d70f",
+      "bytes": 1142
+    },
+    "compliance/licenses/cilium-ebpf-examples-headers-BSD-2-Clause.txt": {
+      "sha256": "6313108c23efffa36948f8b2cff1560a5935373b527b0e1a837cc77e6ed1bacd",
+      "bytes": 1641
+    },
+    "compliance/licenses/golang-x-exp-BSD-3-Clause.txt": {
+      "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067",
+      "bytes": 1479
+    },
+    "compliance/licenses/golang-x-sys-BSD-3-Clause.txt": {
+      "sha256": "2d36597f7117c38b006835ae7f537487207d8ec407aa9d9980794b2030cbc067",
+      "bytes": 1479
+    },
+    "compliance/licenses.md": {
+      "sha256": "812bce107c62410d1114fe7624032d02b1b28cc6847753a3754d3c3ad4f37a0d",
+      "bytes": 5930
+    },
+    "compliance/privacy-policy.md": {
+      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
+      "bytes": 12968
+    },
+    "compliance/privileged-channel.md": {
+      "sha256": "2b527ddd4cf8007655799b945f2cba34ee0df7a4438a4988fe555532991f5f92",
+      "bytes": 18298
+    },
+    "compliance/supply-chain.md": {
+      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
+      "bytes": 9362
+    },
+    "compliance/third-party-services.md": {
+      "sha256": "ff840327b8332cea1f00ebce3f365b4c01b892ec4e6c771e3a4061bddbef8419",
+      "bytes": 8711
+    },
+    "LICENSE": {
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357
+    },
+    "NOTICE": {
+      "sha256": "589ea312f2f4ae3f38a0378560e7ca380a4aae3409b7a2601e9ff57769abb3fa",
+      "bytes": 1574
+    },
+    "config.ini": {
+      "sha256": "da9c0803ac64c5fcbd242d89eb0d41a0111b562425b088ceb18bf6bf167b1296",
+      "bytes": 686
+    },
+    "version.json": {
+      "sha256": "9ab194d0028e8abe367a19c34a5da52ff7e11a55e94006655ddcb5795f024fa1",
+      "bytes": 170
+    },
+    "netcheck.lang": {
+      "sha256": "cab727c16a7a8ead0bb9cd70c402eed3e1fe377ca9148410ae6e03b956ad43e4",
+      "bytes": 129099
+    }
+  },
+  "contract": {
+    "backend_binary_sha256": "57baf0c00452eeba81bf03ff98b5993b310c8de6a47b41ea9066024bb5ce3852",
+    "bpf_collector_binary_sha256": "e3ecc38451418e53ba922056c5d33a285f8cd6bd27b8500b5019decd64575810",
+    "helper_binary_sha256": "830654a28e143537e7fed35ed2b7465603bb2c80f9e39a15715d100ebacf19ce",
+    "version": "1.2.60",
+    "webui_bz2_sha256": "6c4342657335ce58807d8687b3924501f138a0f91c072ccbb1a6374272127a4b"
+  },
+  "service_units": {
+    "netcheck.service": {
+      "sha256": "1ac36486dd0ed419d13f43ede5019fe8882cb856a606f23d5a3bc1c16775d4f2",
+      "user": "netcheck",
+      "install_path": "/etc/systemd/system/netcheck.service"
+    },
+    "netcheck-helper.service": {
+      "sha256": "ef8be81d6bc9d313852884644d43f4255830300640ab0b409f5281ffe3379ae7",
+      "user": "0",
+      "install_path": "/etc/systemd/system/netcheck-helper.service"
+    },
+    "netcheck-bpf.service": {
+      "sha256": "8873aec64a47f8d05943bd8602703a624a6f576e0ec6412d2da4b2e88aed0686",
+      "user": "0",
+      "install_path": "/etc/systemd/system/netcheck-bpf.service"
+    }
+  },
+  "maintainer_scripts": {
+    "preinst": {
+      "sha256": "f6aba3dee5f29cdec05aa047e3226d68eb333023575f54eebdbf886e75c3fa5e",
+      "bytes": 146
+    },
+    "postinst": {
+      "sha256": "8d5ae8bb76c647b3bf3ae00dbbfa5bf396abaf201695ba78139cb3ec3a9fa374",
+      "bytes": 8719
+    },
+    "prerm": {
+      "sha256": "3b9a3aad85998ec12c56d12f2218db015ca070712d211ae7c24e6dd0b7be1c64",
+      "bytes": 223
+    },
+    "postrm": {
+      "sha256": "e07f064cfac510864fce4e1222fe4fe9d670347d829ed52761ca2cfa0f5280f2",
+      "bytes": 1205
+    }
+  },
+  "review_items": {
+    "V1/S1": "compliance/privileged-channel.md",
+    "C2": "compliance/privacy-policy.md",
+    "C3": "compliance/licenses.md + LICENSE + NOTICE + compliance/licenses/",
+    "C4": "compliance/third-party-services.md",
+    "C5": "compliance/data-rights.md",
+    "S8/S9": "compliance/supply-chain.md + maintainer_scripts"
+  },
+  "package": {
+    "file": "netcheck_1.2.60_amd64.deb",
+    "sha256": "418e0db3fc7c41fbfbb7c9b5bdac8858493aca8567449be3f7198a1ac10ed2e0",
+    "bytes": 3137894,
+    "architecture": "amd64",
+    "verified_by": "sha256sum -c netcheck_1.2.60_amd64.deb.sha256"
+  }
+}
