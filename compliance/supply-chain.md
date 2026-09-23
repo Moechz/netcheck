@@ -35,7 +35,7 @@
 
 ```bash
 # 环境：macOS/Linux 均可；Python 3.10（目标设备版本，用于生成兼容 .pyc）、
-#       Node 18+（前端检查与压缩）、Go 1.23+（可选，vendor 已就绪）
+#       Node 18+（前端检查与压缩）、Go 1.27+（vendor 已就绪）
 #       dpkg-deb（Linux 可选；无 dpkg-deb 时使用内置 GNU deb 写入器）
 
 cd netcheck

@@ -1,0 +1,189 @@
+#!/bin/bash
+set -e
+
+APPID="netcheck"
+APP_DIR="/usr/local/${APPID}"
+# Version stamp recorded inside the auto-generated exec-compat drop-ins so
+# later upgrades can recognize files this package created.
+PKG_VERSION="$(sed -n 's/.*"version"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "${APP_DIR}/config.ini" 2>/dev/null | head -n1)"
+
+# TOS 7 requires applications to use their own non-root account.
+if ! getent group "${APPID}" >/dev/null 2>&1; then
+    groupadd --system "${APPID}" 2>/dev/null || true
+fi
+if ! id -u "${APPID}" >/dev/null 2>&1; then
+    useradd --system --gid "${APPID}" --no-create-home --shell /usr/sbin/nologin "${APPID}" 2>/dev/null || true
+fi
+
+mkdir -p "${APP_DIR}/data/auth" "${APP_DIR}/data/backups" \
+         "${APP_DIR}/data/snapshots" "${APP_DIR}/data/tmp" \
+         "${APP_DIR}/logs"
+# TOS may expose /var/api as a symlink to /tmp/api. GNU mkdir -p returns
+# "File exists" when that symlink is dangling, so create its target first.
+if [ -L /var/api ] && [ ! -d /var/api ]; then
+    mkdir -p "$(readlink /var/api)"
+fi
+if [ ! -d /var/api ]; then
+    mkdir -p /var/api
+fi
+chown -R "${APPID}:${APPID}" "${APP_DIR}/data" "${APP_DIR}/logs"
+chmod 700 "${APP_DIR}/data/auth"
+
+# TOS creates /var/api as an admin-owned 0755 directory on some installations.
+# NetCheck must not run as root, so grant only this app user permission to
+# create its platform-proxy socket. Do not change the directory owner/mode.
+# /tmp or tmpfs targets may not support POSIX ACLs; treat any setfacl
+# failure as "unavailable" and apply the traditional group fallback.
+if command -v setfacl >/dev/null 2>&1 \
+   && setfacl -m "u:${APPID}:rwx" /var/api 2>/dev/null; then
+    :
+else
+    chgrp "${APPID}" /var/api
+    chmod u+rwx,g+rwx,o+rX /var/api
+fi
+
+# webui.bz2 is the fixed frontend archive filename required by TOS 7.
+if [ -f "$APP_DIR/webui.bz2" ]; then
+    rm -rf "$APP_DIR/webui" && mkdir -p "$APP_DIR/webui"
+    tar -xjf "$APP_DIR/webui.bz2" -C "$APP_DIR/webui" || true
+fi
+
+# TOS serves installed WebUIs from /usr/www/<appid>. Register the link here so
+# direct dpkg installation behaves like App Center deployment.
+if [ -d /usr/www ]; then
+    ln -sfn "$APP_DIR/webui" "/usr/www/${APPID}"
+fi
+
+# ---- legacy field drop-in migration (review item, field report 2026-09-15) ----
+# A field fix on one production NAS created 90-tos-compat.conf drop-ins that
+# override the shipped unit templates (NoNewPrivileges=false, extended caps,
+# re-ordered ExecStartPre). Upgrades must not stack the new templates under
+# those overrides. Recognized: exactly the field-fix filename. Anything else
+# under *.service.d/ is left untouched and reported. Backups go to
+# /var/backups/ (persistent, never written by this package's payload).
+LEGACY_STAMP="$(date +%Y%m%d-%H%M%S)"
+LEGACY_BACKUP="/var/backups/netcheck/legacy-dropins-${LEGACY_STAMP}"
+for svc in netcheck netcheck-helper netcheck-bpf; do
+    d="/etc/systemd/system/${svc}.service.d"
+    [ -d "$d" ] || continue
+    legacy="$d/90-tos-compat.conf"
+    if [ -f "$legacy" ]; then
+        mkdir -p "$LEGACY_BACKUP"
+        mv "$legacy" "$LEGACY_BACKUP/${svc}-90-tos-compat.conf"
+        echo "netcheck: migrated legacy drop-in $legacy (backup: $LEGACY_BACKUP)"
+    fi
+    for f in "$d"/*.conf; do
+        [ -f "$f" ] || continue
+        case "$(basename "$f")" in
+            80-netcheck-exec-compat.conf) continue ;;
+        esac
+        echo "netcheck: WARNING custom drop-in $f left in place (may override shipped unit template)" >&2
+    done
+done
+
+# ---- exec-compat probe (field report 2026-09-15: one TOS build rejects
+# execve under NoNewPrivileges with systemd 203/EXEC, even for /bin/true; on
+# that build RestrictSUIDSGID/RestrictAddressFamilies also break exec for the
+# non-root service user). Probe once at install time and, only on affected
+# platforms, install minimal relaxation drop-ins. Capabilities are NEVER
+# widened by this path and the backend keeps running as the netcheck user.
+# NETCHECK_EXEC_COMPAT=force installs the drop-ins without probing (test hook),
+# =off never installs them; default is the probe.
+exec_probe() {
+    # systemd-run assignment args are passed through verbatim ("$@" keeps
+    # "RestrictAddressFamilies=AF_UNIX AF_INET ..." as ONE argument).
+    timeout 15 systemd-run --wait --collect "$@" /bin/true >/dev/null 2>&1
+}
+
+MAIN_COMPAT=0
+PRIV_COMPAT=0
+MODE="${NETCHECK_EXEC_COMPAT:-probe}"
+if [ "$MODE" = "force" ]; then
+    MAIN_COMPAT=1; PRIV_COMPAT=1
+    echo "netcheck: exec-compat forced (NETCHECK_EXEC_COMPAT=force)"
+elif [ "$MODE" = "off" ]; then
+    echo "netcheck: exec-compat probe skipped (NETCHECK_EXEC_COMPAT=off)"
+elif command -v systemd-run >/dev/null 2>&1 && command -v timeout >/dev/null 2>&1 \
+     && systemctl >/dev/null 2>&1; then
+    if ! exec_probe -p NoNewPrivileges=true; then
+        echo "netcheck: probe failed: NoNewPrivileges rejects execve on this platform -> compat drop-ins for all services"
+        MAIN_COMPAT=1; PRIV_COMPAT=1
+    elif ! exec_probe -p "User=${APPID}" -p NoNewPrivileges=true -p RestrictSUIDSGID=true -p "RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK"; then
+        echo "netcheck: probe failed: sandbox filters reject execve for the non-root service user -> compat drop-in for the main service"
+        MAIN_COMPAT=1
+    else
+        echo "netcheck: exec-compat probe passed; hardened unit templates stay in effect"
+    fi
+else
+    echo "netcheck: systemd-run/timeout unavailable; keeping hardened unit templates" >&2
+fi
+
+COMPAT_HDR="# ${PKG_VERSION:-netcheck} exec-compat (auto-generated by postinst; do not edit).
+# This platform rejects execve under NoNewPrivileges (systemd 203/EXEC) or,
+# for the non-root backend, under the exec-sandbox filters. postinst removes
+# this file automatically when the platform probe passes again.
+# Capabilities, service users and socket ownership are unchanged - see
+# compliance/privileged-channel.md."
+install_compat() {
+    # $1 = service name, $2.. = assignment lines
+    svc="$1"; shift
+    d="/etc/systemd/system/${svc}.service.d"
+    mkdir -p "$d"
+    f="$d/80-netcheck-exec-compat.conf"
+    { echo "$COMPAT_HDR"; echo "[Service]"; for l in "$@"; do echo "$l"; done; } > "$f"
+    echo "netcheck: exec-compat drop-in installed for ${svc}"
+}
+remove_compat() {
+    rm -f "/etc/systemd/system/$1.service.d/80-netcheck-exec-compat.conf"
+}
+
+if [ "$MAIN_COMPAT" = "1" ]; then
+    install_compat netcheck "NoNewPrivileges=false" "RestrictSUIDSGID=false" "RestrictAddressFamilies="
+else
+    remove_compat netcheck
+fi
+if [ "$PRIV_COMPAT" = "1" ]; then
+    install_compat netcheck-helper "NoNewPrivileges=false"
+    install_compat netcheck-bpf "NoNewPrivileges=false"
+else
+    remove_compat netcheck-helper
+    remove_compat netcheck-bpf
+fi
+
+# Register units explicitly so direct dpkg installation and App Center both work.
+install -m 0644 "$APP_DIR/init.d/netcheck.service" /etc/systemd/system/netcheck.service
+install -m 0644 "$APP_DIR/init.d/netcheck-helper.service" /etc/systemd/system/netcheck-helper.service
+install -m 0644 "$APP_DIR/init.d/netcheck-bpf.service" /etc/systemd/system/netcheck-bpf.service
+systemctl daemon-reload
+systemctl enable netcheck.service netcheck-helper.service netcheck-bpf.service >/dev/null 2>&1 || true
+systemctl restart netcheck-helper.service netcheck-bpf.service netcheck.service || true
+
+# ---- readiness check: a successful `systemctl restart` only means the unit
+# was started; the backend also needs a moment to bind /var/api/netcheck.sock.
+# Poll the health endpoint with a bounded total timeout instead of failing
+# installs on slow boxes; on timeout, dump a bounded unit-state snapshot to
+# the dpkg log for diagnosis (field report 2026-09-15: immediate curls after
+# restart failed although the backend became healthy seconds later).
+READY=0
+if command -v curl >/dev/null 2>&1; then
+    for i in $(seq 1 30); do
+        if curl -fsS --unix-socket /var/api/netcheck.sock http://localhost/health >/dev/null 2>&1; then
+            READY=1; break
+        fi
+        sleep 1
+    done
+fi
+if [ "$READY" = "1" ]; then
+    echo "netcheck: backend healthy on /var/api/netcheck.sock"
+else
+    echo "netcheck: WARNING backend health check did not pass within 30s; unit snapshot follows" >&2
+    systemctl --no-pager -l status netcheck netcheck-helper netcheck-bpf 2>&1 | head -n 30 >&2 || true
+fi
+
+# Effective security-context audit line (drops into the dpkg/install log).
+for svc in netcheck netcheck-helper netcheck-bpf; do
+    echo "netcheck: ${svc}: NoNewPrivileges=$(systemctl show "$svc" -p NoNewPrivileges --value 2>/dev/null || echo unknown), BoundingSet=$(systemctl show "$svc" -p CapabilityBoundingSet --value 2>/dev/null | cut -c1-80)"
+done
+
+echo "${APPID} installed successfully."
+exit 0

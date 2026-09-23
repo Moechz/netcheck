@@ -1,0 +1,7 @@
+{
+  "backend_binary_sha256": "57baf0c00452eeba81bf03ff98b5993b310c8de6a47b41ea9066024bb5ce3852",
+  "bpf_collector_binary_sha256": "2b404f4af9c00bbdcc97b86fd0f4c9a8e2827dc9d4356bae405001ea50392a09",
+  "helper_binary_sha256": "830654a28e143537e7fed35ed2b7465603bb2c80f9e39a15715d100ebacf19ce",
+  "version": "1.2.61",
+  "webui_bz2_sha256": "d5bd37ce58d50d3edbf5a779b1579d3514f5d65ad1944ba48c71d505d2ea5849"
+}

@@ -57,7 +57,7 @@ footer{color:var(--dim);font-size:12.5px;border-top:1px solid var(--bd);margin-t
 <blockquote>审核如需<strong>明文源码</strong>（后端 <code>.py</code>、前端未混淆 <code>.js</code>、eBPF <code>.bpf.c</code>），可通过 https://github.com/Moechz/netcheck/issues 索取：我们提供只读仓库访问或源码压缩包（含构建脚本）， 用于平台侧静态审计，作为「L1/L2 保护」与「可审计性」的平衡。</blockquote>
 <h3 id="2-构建环境与命令-可复现">2. 构建环境与命令（可复现）</h3>
 <pre><code># 环境：macOS/Linux 均可；Python 3.10（目标设备版本，用于生成兼容 .pyc）、
-#       Node 18+（前端检查与压缩）、Go 1.23+（可选，vendor 已就绪）
+#       Node 18+（前端检查与压缩）、Go 1.27+（vendor 已就绪）
 #       dpkg-deb（Linux 可选；无 dpkg-deb 时使用内置 GNU deb 写入器）
 
 cd netcheck

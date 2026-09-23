@@ -1,5 +1,5 @@
 Package: netcheck
-Version: 1.2.60
+Version: 1.2.61
 Architecture: amd64
 Maintainer: Moechz <Moechz@users.noreply.github.com>
 Depends: libc6 (>= 2.34), python3, systemd

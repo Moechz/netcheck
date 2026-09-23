@@ -1,6 +1,6 @@
 {
   "app": "netcheck",
-  "version": "1.2.60",
+  "version": "1.2.61",
   "platform": "x86_64",
   "deb_architecture": "amd64",
   "install_root": "/usr/local/netcheck",
@@ -15,7 +15,7 @@
       "bytes": 2576
     },
     "privacy-policy.md": {
-      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
+      "sha256": "29ccca5965308e855d0c12582ec1d8ca606d0bbb6854ecaa0a763129c03b058b",
       "bytes": 12968
     },
     "third-party-services.md": {
@@ -35,8 +35,8 @@
       "bytes": 18298
     },
     "supply-chain.md": {
-      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
-      "bytes": 9362
+      "sha256": "b1a093af708f49aa472d5752b6117c0556c1ace1ea3c0820e924fbfbcd2c9837",
+      "bytes": 9353
     }
   },
   "licenses": {
@@ -71,7 +71,7 @@
       "bytes": 2576
     },
     "compliance/SBOM.json": {
-      "sha256": "22c1970dfc19aea58741450bfc993dad49eff07cb71f296e1461193698c8b790",
+      "sha256": "ef68506295da2cf0bbb2f95823d2efc9876c3ce0c758323663a2e1034f80feaa",
       "bytes": 4577
     },
     "compliance/data-rights.md": {
@@ -99,7 +99,7 @@
       "bytes": 5930
     },
     "compliance/privacy-policy.md": {
-      "sha256": "2fa96fc94dbb59869e782c1aec24d46a757d39e09f58409d4da9af600dd12f37",
+      "sha256": "29ccca5965308e855d0c12582ec1d8ca606d0bbb6854ecaa0a763129c03b058b",
       "bytes": 12968
     },
     "compliance/privileged-channel.md": {
@@ -107,8 +107,8 @@
       "bytes": 18298
     },
     "compliance/supply-chain.md": {
-      "sha256": "ae1fa0ab215914fc1e553e91499b9e163cd601259e50b5f9ec135614acbb75fe",
-      "bytes": 9362
+      "sha256": "b1a093af708f49aa472d5752b6117c0556c1ace1ea3c0820e924fbfbcd2c9837",
+      "bytes": 9353
     },
     "compliance/third-party-services.md": {
       "sha256": "ff840327b8332cea1f00ebce3f365b4c01b892ec4e6c771e3a4061bddbef8419",
@@ -123,24 +123,24 @@
       "bytes": 1574
     },
     "config.ini": {
-      "sha256": "da9c0803ac64c5fcbd242d89eb0d41a0111b562425b088ceb18bf6bf167b1296",
+      "sha256": "e2ba668d6a8cfaf421f8891a422b8038a6e59fb86f6ed62593c07a885ebe67d9",
       "bytes": 686
     },
     "version.json": {
-      "sha256": "9ab194d0028e8abe367a19c34a5da52ff7e11a55e94006655ddcb5795f024fa1",
+      "sha256": "dfe0191e85e3c01e8be19d2d71b4bcb5ef2152c00650de242553c8968fea68c9",
       "bytes": 170
     },
     "netcheck.lang": {
-      "sha256": "cab727c16a7a8ead0bb9cd70c402eed3e1fe377ca9148410ae6e03b956ad43e4",
-      "bytes": 129099
+      "sha256": "00ffa87867a16ee47d933455e364dd2401799095aabefd082ec5b002c45dbd6c",
+      "bytes": 132261
     }
   },
   "contract": {
     "backend_binary_sha256": "57baf0c00452eeba81bf03ff98b5993b310c8de6a47b41ea9066024bb5ce3852",
-    "bpf_collector_binary_sha256": "e3ecc38451418e53ba922056c5d33a285f8cd6bd27b8500b5019decd64575810",
+    "bpf_collector_binary_sha256": "2b404f4af9c00bbdcc97b86fd0f4c9a8e2827dc9d4356bae405001ea50392a09",
     "helper_binary_sha256": "830654a28e143537e7fed35ed2b7465603bb2c80f9e39a15715d100ebacf19ce",
-    "version": "1.2.60",
-    "webui_bz2_sha256": "6c4342657335ce58807d8687b3924501f138a0f91c072ccbb1a6374272127a4b"
+    "version": "1.2.61",
+    "webui_bz2_sha256": "d5bd37ce58d50d3edbf5a779b1579d3514f5d65ad1944ba48c71d505d2ea5849"
   },
   "service_units": {
     "netcheck.service": {

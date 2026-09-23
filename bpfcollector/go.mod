@@ -1,10 +1,10 @@
 module github.com/Moechz/netcheck/bpfcollector
 
-go 1.23.4
+go 1.26.0
 
 require (
-	github.com/cilium/ebpf v0.15.0
-	golang.org/x/sys v0.15.0
+	github.com/cilium/ebpf v0.22.0
+	golang.org/x/sys v0.48.0
 )
 
-require golang.org/x/exp v0.0.0-20230224173230-c95f2b4c22f2 // indirect
+require golang.org/x/sync v0.23.0 // indirect

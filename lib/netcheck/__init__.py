@@ -1,2 +1,2 @@
 """NetCheck - TOS 7 network diagnosis & repair app backend."""
-__version__ = "1.2.60"
+__version__ = "1.2.61"

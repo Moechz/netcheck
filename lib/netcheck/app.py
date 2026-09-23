@@ -120,7 +120,7 @@ def normalize_platform_path(path: str, app_id: str = APP_ID) -> str:
 
 class Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
-    server_version = "NetCheck/1.2.60"
+    server_version = "NetCheck/1.2.61"
     router: Router = None  # type: ignore[assignment]
     logger = None
 
