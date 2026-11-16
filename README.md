@@ -109,3 +109,24 @@ repository:
 ---
 
 Source code is maintained in [Moechz/TOS-netcheck](https://github.com/Moechz/TOS-netcheck).
+
+## Privacy
+
+This application runs entirely on your NAS. The developer does not collect or have access
+to your data; there is no telemetry or analytics. Data is kept until you delete it, and
+you can export or delete it at any time (see [PRIVACY.md](PRIVACY.md)).
+
+## Third-party services (API disclosure)
+
+The developer operates no server in this path; the app contacts only the services you
+configure. Full table: [PRIVACY.md](PRIVACY.md) §6.
+
+## Licence and attributions
+
+See [NOTICE.md](NOTICE.md). "NetCheck", "TerraMaster" and "TOS" are trademarks of their
+respective owners; this is an independent community package.
+
+## Support
+
+- Email: moechz@163.com
+- Privacy: [PRIVACY.md](PRIVACY.md) · Licence: [NOTICE.md](NOTICE.md)
